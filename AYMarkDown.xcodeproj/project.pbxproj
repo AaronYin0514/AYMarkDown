@@ -24,6 +24,7 @@
 		93388BFC24D9470F0093FAB3 /* DocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93388BFA24D9470F0093FAB3 /* DocumentViewController.swift */; };
 		93388C0024D94F7F0093FAB3 /* MarkDwonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93388BFE24D94F7F0093FAB3 /* MarkDwonViewController.swift */; };
 		93388C0424D951420093FAB3 /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93388C0224D951420093FAB3 /* NotesViewController.swift */; };
+		93388C0824D95E6A0093FAB3 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93388C0724D95E6A0093FAB3 /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		93388BFA24D9470F0093FAB3 /* DocumentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentViewController.swift; sourceTree = "<group>"; };
 		93388BFE24D94F7F0093FAB3 /* MarkDwonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkDwonViewController.swift; sourceTree = "<group>"; };
 		93388C0224D951420093FAB3 /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
+		93388C0724D95E6A0093FAB3 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93388C0824D95E6A0093FAB3 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,6 +78,7 @@
 			children = (
 				9309E50D24D824CF005EF8C8 /* AYMarkDown */,
 				9309E50C24D824CF005EF8C8 /* Products */,
+				93388C0624D95E6A0093FAB3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -136,6 +140,14 @@
 				9309E54024D8EB37005EF8C8 /* markdown.html */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		93388C0624D95E6A0093FAB3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				93388C0724D95E6A0093FAB3 /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -367,7 +379,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.aaron.AYMarkDown;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaron.brain;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = $SRCROOT/AYMarkDown/Bridge.h;
 				SWIFT_VERSION = 5.0;
@@ -388,7 +400,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.aaron.AYMarkDown;
+				PRODUCT_BUNDLE_IDENTIFIER = com.aaron.brain;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = $SRCROOT/AYMarkDown/Bridge.h;
 				SWIFT_VERSION = 5.0;

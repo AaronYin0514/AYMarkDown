@@ -7,12 +7,16 @@
 //
 
 import Cocoa
+import CloudKit
 
 class NotesViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do view setup here.
+        
+//        FileManager
+        print(NSHomeDirectory())
     }
     
 }
