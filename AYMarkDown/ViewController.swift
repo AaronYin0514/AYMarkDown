@@ -9,21 +9,20 @@
 import Cocoa
 import WebKit
 
-class ViewController: NSViewController {
-
-    @IBOutlet weak var scrollView: NSScrollView!
-    
-    @IBOutlet weak var webView: WKWebView!
-    
-    private var textView: NSTextView {
-        return scrollView.documentView as! NSTextView
-    }
+class ViewController: NSSplitViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-//        print(textView.documentView)
+        for item in splitViewItems {
+            if item.viewController is DocumentViewController {
+                item.maximumThickness = 180
+                item.minimumThickness = 180
+            } else if item.viewController is NotesViewController {
+                item.maximumThickness = 220
+                item.minimumThickness = 220
+            }
+        }
+        
     }
 
     override var representedObject: Any? {
@@ -31,7 +30,5 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-
     
 }
-

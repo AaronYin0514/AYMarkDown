@@ -19,6 +19,11 @@
 		9309E53524D8255A005EF8C8 /* MMElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 9309E52624D8255A005EF8C8 /* MMElement.m */; };
 		9309E53624D8255A005EF8C8 /* MMHTMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 9309E52C24D8255A005EF8C8 /* MMHTMLParser.m */; };
 		9309E53724D8255A005EF8C8 /* MMGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 9309E52D24D8255A005EF8C8 /* MMGenerator.m */; };
+		9309E54124D8EB37005EF8C8 /* markdown.css in Resources */ = {isa = PBXBuildFile; fileRef = 9309E53F24D8EB37005EF8C8 /* markdown.css */; };
+		9309E54224D8EB37005EF8C8 /* markdown.html in Resources */ = {isa = PBXBuildFile; fileRef = 9309E54024D8EB37005EF8C8 /* markdown.html */; };
+		93388BFC24D9470F0093FAB3 /* DocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93388BFA24D9470F0093FAB3 /* DocumentViewController.swift */; };
+		93388C0024D94F7F0093FAB3 /* MarkDwonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93388BFE24D94F7F0093FAB3 /* MarkDwonViewController.swift */; };
+		93388C0424D951420093FAB3 /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93388C0224D951420093FAB3 /* NotesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +52,11 @@
 		9309E52E24D8255A005EF8C8 /* MMDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMDocument.h; sourceTree = "<group>"; };
 		9309E52F24D8255A005EF8C8 /* MMSpanParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MMSpanParser.h; sourceTree = "<group>"; };
 		9309E53824D8256B005EF8C8 /* Bridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridge.h; sourceTree = "<group>"; };
+		9309E53F24D8EB37005EF8C8 /* markdown.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = markdown.css; sourceTree = "<group>"; };
+		9309E54024D8EB37005EF8C8 /* markdown.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = markdown.html; sourceTree = "<group>"; };
+		93388BFA24D9470F0093FAB3 /* DocumentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentViewController.swift; sourceTree = "<group>"; };
+		93388BFE24D94F7F0093FAB3 /* MarkDwonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkDwonViewController.swift; sourceTree = "<group>"; };
+		93388C0224D951420093FAB3 /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,8 +89,12 @@
 		9309E50D24D824CF005EF8C8 /* AYMarkDown */ = {
 			isa = PBXGroup;
 			children = (
+				9309E53E24D8EB02005EF8C8 /* Resources */,
 				9309E51E24D8255A005EF8C8 /* Markdown */,
 				9309E50E24D824CF005EF8C8 /* AppDelegate.swift */,
+				93388BFA24D9470F0093FAB3 /* DocumentViewController.swift */,
+				93388BFE24D94F7F0093FAB3 /* MarkDwonViewController.swift */,
+				93388C0224D951420093FAB3 /* NotesViewController.swift */,
 				9309E51024D824CF005EF8C8 /* ViewController.swift */,
 				9309E51224D824D3005EF8C8 /* Assets.xcassets */,
 				9309E51424D824D3005EF8C8 /* Main.storyboard */,
@@ -113,6 +127,15 @@
 				9309E52F24D8255A005EF8C8 /* MMSpanParser.h */,
 			);
 			path = Markdown;
+			sourceTree = "<group>";
+		};
+		9309E53E24D8EB02005EF8C8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9309E53F24D8EB37005EF8C8 /* markdown.css */,
+				9309E54024D8EB37005EF8C8 /* markdown.html */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -174,7 +197,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9309E51324D824D3005EF8C8 /* Assets.xcassets in Resources */,
+				9309E54124D8EB37005EF8C8 /* markdown.css in Resources */,
 				9309E51624D824D3005EF8C8 /* Main.storyboard in Resources */,
+				9309E54224D8EB37005EF8C8 /* markdown.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -187,12 +212,15 @@
 			files = (
 				9309E53124D8255A005EF8C8 /* MMParser.m in Sources */,
 				9309E53724D8255A005EF8C8 /* MMGenerator.m in Sources */,
+				93388C0024D94F7F0093FAB3 /* MarkDwonViewController.swift in Sources */,
 				9309E53624D8255A005EF8C8 /* MMHTMLParser.m in Sources */,
 				9309E53024D8255A005EF8C8 /* MMMarkdown.m in Sources */,
 				9309E53524D8255A005EF8C8 /* MMElement.m in Sources */,
 				9309E53324D8255A005EF8C8 /* MMSpanParser.m in Sources */,
 				9309E51124D824CF005EF8C8 /* ViewController.swift in Sources */,
+				93388BFC24D9470F0093FAB3 /* DocumentViewController.swift in Sources */,
 				9309E53224D8255A005EF8C8 /* MMDocument.m in Sources */,
+				93388C0424D951420093FAB3 /* NotesViewController.swift in Sources */,
 				9309E50F24D824CF005EF8C8 /* AppDelegate.swift in Sources */,
 				9309E53424D8255A005EF8C8 /* MMScanner.m in Sources */,
 			);
