@@ -1,0 +1,6 @@
+framework module Pods_AYMarkDown {
+  umbrella header "Pods-AYMarkDown-umbrella.h"
+
+  export *
+  module * { export * }
+}

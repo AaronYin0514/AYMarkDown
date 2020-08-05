@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0462986BD9FB113A0FFC5BEF /* Pods_AYMarkDown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 003F533E33C513C03C9D8BA2 /* Pods_AYMarkDown.framework */; };
 		9309E50F24D824CF005EF8C8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9309E50E24D824CF005EF8C8 /* AppDelegate.swift */; };
 		9309E51124D824CF005EF8C8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9309E51024D824CF005EF8C8 /* ViewController.swift */; };
 		9309E51324D824D3005EF8C8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9309E51224D824D3005EF8C8 /* Assets.xcassets */; };
@@ -28,6 +29,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		003F533E33C513C03C9D8BA2 /* Pods_AYMarkDown.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AYMarkDown.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		07ED49598FEF0A65098DC155 /* Pods-AYMarkDown.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AYMarkDown.release.xcconfig"; path = "Target Support Files/Pods-AYMarkDown/Pods-AYMarkDown.release.xcconfig"; sourceTree = "<group>"; };
 		9309E50B24D824CF005EF8C8 /* AYMarkDown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AYMarkDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9309E50E24D824CF005EF8C8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9309E51024D824CF005EF8C8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -59,6 +62,7 @@
 		93388BFE24D94F7F0093FAB3 /* MarkDwonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkDwonViewController.swift; sourceTree = "<group>"; };
 		93388C0224D951420093FAB3 /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 		93388C0724D95E6A0093FAB3 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		E3A1372385613C29975ED1CB /* Pods-AYMarkDown.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AYMarkDown.debug.xcconfig"; path = "Target Support Files/Pods-AYMarkDown/Pods-AYMarkDown.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,18 +71,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				93388C0824D95E6A0093FAB3 /* CloudKit.framework in Frameworks */,
+				0462986BD9FB113A0FFC5BEF /* Pods_AYMarkDown.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2D246F3A04C3CCCA9D6473C7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E3A1372385613C29975ED1CB /* Pods-AYMarkDown.debug.xcconfig */,
+				07ED49598FEF0A65098DC155 /* Pods-AYMarkDown.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		9309E50224D824CF005EF8C8 = {
 			isa = PBXGroup;
 			children = (
 				9309E50D24D824CF005EF8C8 /* AYMarkDown */,
 				9309E50C24D824CF005EF8C8 /* Products */,
 				93388C0624D95E6A0093FAB3 /* Frameworks */,
+				2D246F3A04C3CCCA9D6473C7 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -146,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				93388C0724D95E6A0093FAB3 /* CloudKit.framework */,
+				003F533E33C513C03C9D8BA2 /* Pods_AYMarkDown.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -157,9 +174,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9309E51B24D824D3005EF8C8 /* Build configuration list for PBXNativeTarget "AYMarkDown" */;
 			buildPhases = (
+				DFC4FE4879835F0C6296DEB3 /* [CP] Check Pods Manifest.lock */,
 				9309E50724D824CF005EF8C8 /* Sources */,
 				9309E50824D824CF005EF8C8 /* Frameworks */,
 				9309E50924D824CF005EF8C8 /* Resources */,
+				1A8410B369BBD3AF9B04E68A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -216,6 +235,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1A8410B369BBD3AF9B04E68A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AYMarkDown/Pods-AYMarkDown-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AYMarkDown/Pods-AYMarkDown-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AYMarkDown/Pods-AYMarkDown-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DFC4FE4879835F0C6296DEB3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AYMarkDown-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		9309E50724D824CF005EF8C8 /* Sources */ = {
@@ -367,6 +428,7 @@
 		};
 		9309E51C24D824D3005EF8C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E3A1372385613C29975ED1CB /* Pods-AYMarkDown.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AYMarkDown/AYMarkDown.entitlements;
@@ -381,13 +443,14 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaron.brain;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = $SRCROOT/AYMarkDown/Bridge.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/AYMarkDown/Bridge.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		9309E51D24D824D3005EF8C8 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 07ED49598FEF0A65098DC155 /* Pods-AYMarkDown.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = AYMarkDown/AYMarkDown.entitlements;
@@ -402,7 +465,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaron.brain;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = $SRCROOT/AYMarkDown/Bridge.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/AYMarkDown/Bridge.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
