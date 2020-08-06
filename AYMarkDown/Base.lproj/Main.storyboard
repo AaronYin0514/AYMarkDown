@@ -805,6 +805,9 @@
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="createDocumentAction:" target="zB6-uF-WSY" id="o5s-I2-8F7"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>

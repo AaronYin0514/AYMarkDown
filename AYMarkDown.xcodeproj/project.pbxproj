@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -26,6 +26,7 @@
 		93388C0024D94F7F0093FAB3 /* MarkDwonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93388BFE24D94F7F0093FAB3 /* MarkDwonViewController.swift */; };
 		93388C0424D951420093FAB3 /* NotesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93388C0224D951420093FAB3 /* NotesViewController.swift */; };
 		93388C0824D95E6A0093FAB3 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93388C0724D95E6A0093FAB3 /* CloudKit.framework */; };
+		93904B9824DAC15600BD2C76 /* AYDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93904B9724DAC15500BD2C76 /* AYDocument.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		93388BFE24D94F7F0093FAB3 /* MarkDwonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkDwonViewController.swift; sourceTree = "<group>"; };
 		93388C0224D951420093FAB3 /* NotesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesViewController.swift; sourceTree = "<group>"; };
 		93388C0724D95E6A0093FAB3 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		93904B9724DAC15500BD2C76 /* AYDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYDocument.swift; sourceTree = "<group>"; };
 		E3A1372385613C29975ED1CB /* Pods-AYMarkDown.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AYMarkDown.debug.xcconfig"; path = "Target Support Files/Pods-AYMarkDown/Pods-AYMarkDown.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -84,7 +86,6 @@
 				E3A1372385613C29975ED1CB /* Pods-AYMarkDown.debug.xcconfig */,
 				07ED49598FEF0A65098DC155 /* Pods-AYMarkDown.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -116,6 +117,7 @@
 				93388BFE24D94F7F0093FAB3 /* MarkDwonViewController.swift */,
 				93388C0224D951420093FAB3 /* NotesViewController.swift */,
 				9309E51024D824CF005EF8C8 /* ViewController.swift */,
+				93904B9724DAC15500BD2C76 /* AYDocument.swift */,
 				9309E51224D824D3005EF8C8 /* Assets.xcassets */,
 				9309E51424D824D3005EF8C8 /* Main.storyboard */,
 				9309E51724D824D3005EF8C8 /* Info.plist */,
@@ -289,6 +291,7 @@
 				9309E53624D8255A005EF8C8 /* MMHTMLParser.m in Sources */,
 				9309E53024D8255A005EF8C8 /* MMMarkdown.m in Sources */,
 				9309E53524D8255A005EF8C8 /* MMElement.m in Sources */,
+				93904B9824DAC15600BD2C76 /* AYDocument.swift in Sources */,
 				9309E53324D8255A005EF8C8 /* MMSpanParser.m in Sources */,
 				9309E51124D824CF005EF8C8 /* ViewController.swift in Sources */,
 				93388BFC24D9470F0093FAB3 /* DocumentViewController.swift in Sources */,
@@ -443,7 +446,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaron.brain;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/AYMarkDown/Bridge.h";
+				SWIFT_OBJC_BRIDGING_HEADER = $SRCROOT/AYMarkDown/Bridge.h;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -465,7 +468,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.aaron.brain;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "$SRCROOT/AYMarkDown/Bridge.h";
+				SWIFT_OBJC_BRIDGING_HEADER = $SRCROOT/AYMarkDown/Bridge.h;
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
