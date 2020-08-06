@@ -11,6 +11,15 @@ import SnapKit
 
 class DocumentViewController: NSViewController {
     
+    var selectedURL: URL? {
+        if tableView.selectedRow < 0 || tableView.selectedRow >= urls.count {
+            return nil
+        }
+        return urls[tableView.selectedRow]
+    }
+    
+    var didSelectURL: ((_: URL) -> Void)?
+    
     @IBOutlet weak var scrollView: NSScrollView!
     
     private var tableView: NSTableView {
@@ -46,7 +55,7 @@ class DocumentViewController: NSViewController {
     @objc func finishedGetNewDocument(_ notification: Notification) {
         print("current thread: ---- \(Thread.current)")
         let query = notification.object as! NSMetadataQuery
-        query.disableUpdates()
+//        query.disableUpdates()
         query.stop()
         if query.resultCount <= 0 {
             return
@@ -61,13 +70,13 @@ class DocumentViewController: NSViewController {
             if type != "public.folder" {
                 continue
             }
-            guard let displayName = item.value(forAttribute: NSMetadataItemDisplayNameKey) as? String else {
+            guard let name = item.value(forAttribute: NSMetadataItemFSNameKey) as? String else {
                 continue
             }
             guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL else {
                 continue
             }
-            addData(displayName, url)
+            addData(name, url)
         }
         tableView.reloadData()
     }
@@ -156,12 +165,10 @@ extension DocumentViewController: NSTableViewDataSource, NSTableViewDelegate {
 //        print("removeRow")
     }
     
-    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
-        print("oldDescriptors[0] -> (sortDescriptorPrototyp, descending, compare:)")
-    }
-    
-    public func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
-        print("------------ 要编辑了  \(row)")
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        if row < urls.count {
+            didSelectURL?(urls[row])
+        }
         return true
     }
     

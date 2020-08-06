@@ -12,8 +12,22 @@ class AYDocument: NSDocument {
     
     private var _ay_data: Data?
     
+    private(set) var text: String?
+    
+    func set(data: Data) {
+        _ay_data = data
+    }
+    
     override func read(from data: Data, ofType typeName: String) throws {
-        
+        _ay_data = data
+        text = String(data: data, encoding: .utf8)
+    }
+    
+    override func data(ofType typeName: String) throws -> Data {
+        if _ay_data == nil {
+            throw ZYError.markdownSaveDataNull
+        }
+        return _ay_data!
     }
     
 }

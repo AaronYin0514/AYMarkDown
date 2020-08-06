@@ -11,15 +11,26 @@ import WebKit
 
 class ViewController: NSSplitViewController {
     
+    var documnetViewController: DocumentViewController!
+    var notesViewController: NotesViewController!
+    var markdownViewController: MarkDwonViewController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         for item in splitViewItems {
             if item.viewController is DocumentViewController {
+                documnetViewController = item.viewController as? DocumentViewController
+                documnetViewController.didSelectURL = { [unowned self] (url) in
+                    self.notesViewController.loadData(url)
+                }
                 item.maximumThickness = 180
                 item.minimumThickness = 180
             } else if item.viewController is NotesViewController {
+                notesViewController = item.viewController as? NotesViewController
                 item.maximumThickness = 220
                 item.minimumThickness = 220
+            } else if item.viewController is MarkDwonViewController {
+                markdownViewController = item.viewController as? MarkDwonViewController
             }
         }
         

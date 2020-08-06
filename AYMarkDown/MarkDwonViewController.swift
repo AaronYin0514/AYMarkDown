@@ -11,6 +11,10 @@ import WebKit
 
 class MarkDwonViewController: NSViewController {
 
+    var text: String {
+        return textView.string
+    }
+    
     @IBOutlet weak var scrollView: NSScrollView!
     
     @IBOutlet weak var webView: WKWebView!
