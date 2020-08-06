@@ -19,7 +19,7 @@ class MarkDwonViewController: NSViewController {
     
     @IBOutlet weak var webView: WKWebView!
     
-    private var textView: NSTextView {
+    var textView: NSTextView {
         return scrollView.documentView as! NSTextView
     }
     

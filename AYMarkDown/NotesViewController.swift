@@ -12,6 +12,8 @@ class NotesViewController: NSViewController {
 
     var currentURL: URL?
     
+    var didSelectDocument: ((_: String?) -> Void)?
+    
     @IBOutlet weak var scrollView: NSScrollView!
     
     private var tableView: NSTableView {
@@ -119,6 +121,9 @@ extension NotesViewController: NSTableViewDataSource, NSTableViewDelegate {
     }
     
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        if row < dataSource.count {
+            didSelectDocument?(dataSource[row].text)
+        }
         return true
     }
     
