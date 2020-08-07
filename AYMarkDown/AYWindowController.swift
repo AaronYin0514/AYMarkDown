@@ -24,13 +24,21 @@ class AYWindowController: NSWindowController {
     }
     
     @IBAction func saveAction(_ sender: Any) {
-        guard let docURL = viewController.documnetViewController.selectedURL else {
-            alert("请先选中一个文件夹")
-            return
-        }
         let text = viewController.markdownViewController.text
         if text.count == 0 {
             alert("文章不能为空")
+            return
+        }
+        if let noteURL = viewController.markdownViewController.currentURL {
+            saveNote(noteURL, text)
+        } else {
+            createNote(text)
+        }
+    }
+    
+    private func createNote(_ text: String) {
+        guard let docURL = viewController.documnetViewController.selectedURL else {
+            alert("请先选中一个文件夹")
             return
         }
         var dateName = "\(NSDate().timeIntervalSince1970)"
@@ -46,6 +54,26 @@ class AYWindowController: NSWindowController {
             }
             document.set(data: data)
             document.save(to: fileURL, ofType: "md", for: .saveAsOperation) { [unowned self] (error) in
+                if error != nil {
+                    self.alert("iCloud创建失败 - \(error!.localizedDescription)")
+                } else {
+                    self.alert("创建成功")
+                }
+            }
+        } catch {
+            alert("创建失败 - \(error.localizedDescription)")
+        }
+    }
+    
+    private func saveNote(_ url: URL, _ text: String) {
+        do {
+            let document = try AYDocument(type: "md")
+            guard let data = text.data(using: .utf8) else {
+                alert("数据转换失败")
+                return
+            }
+            document.set(data: data)
+            document.save(to: url, ofType: "md", for: .saveOperation) { [unowned self] (error) in
                 if error != nil {
                     self.alert("iCloud保存失败 - \(error!.localizedDescription)")
                 } else {

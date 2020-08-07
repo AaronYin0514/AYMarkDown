@@ -12,7 +12,7 @@ class NotesViewController: NSViewController {
 
     var currentURL: URL?
     
-    var didSelectDocument: ((_: String?) -> Void)?
+    var didSelectDocument: ((_: String, _: URL) -> Void)?
     
     @IBOutlet weak var scrollView: NSScrollView!
     
@@ -122,7 +122,10 @@ extension NotesViewController: NSTableViewDataSource, NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         if row < dataSource.count {
-            didSelectDocument?(dataSource[row].text)
+            let d = dataSource[row]
+            if let text = d.text, let url = d.remoteFileURL {
+                didSelectDocument?(text, url)
+            }
         }
         return true
     }

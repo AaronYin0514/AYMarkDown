@@ -14,8 +14,15 @@ class AYDocument: NSDocument {
     
     private(set) var text: String?
     
+    private(set) var remoteFileURL: URL?
+    
     func set(data: Data) {
         _ay_data = data
+    }
+    
+    override func read(from url: URL, ofType typeName: String) throws {
+        try super.read(from: url, ofType: typeName)
+        remoteFileURL = url
     }
     
     override func read(from data: Data, ofType typeName: String) throws {

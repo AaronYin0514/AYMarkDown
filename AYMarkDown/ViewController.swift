@@ -27,10 +27,8 @@ class ViewController: NSSplitViewController {
                 item.minimumThickness = 180
             } else if item.viewController is NotesViewController {
                 notesViewController = item.viewController as? NotesViewController
-                notesViewController.didSelectDocument = { [unowned self] (string) in
-                    if let text = string {
-                        self.markdownViewController.textView.string = text
-                    }
+                notesViewController.didSelectDocument = { [unowned self] (text, url) in
+                    self.markdownViewController.set(text: text, url: url)
                 }
                 item.maximumThickness = 220
                 item.minimumThickness = 220

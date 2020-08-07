@@ -11,6 +11,8 @@ import WebKit
 
 class MarkDwonViewController: NSViewController {
 
+    var currentURL: URL?
+    
     var text: String {
         return textView.string
     }
@@ -19,7 +21,7 @@ class MarkDwonViewController: NSViewController {
     
     @IBOutlet weak var webView: WKWebView!
     
-    var textView: NSTextView {
+    private var textView: NSTextView {
         return scrollView.documentView as! NSTextView
     }
     
@@ -30,6 +32,13 @@ class MarkDwonViewController: NSViewController {
         textView.textContainerInset = CGSize(width: 24, height: 24)
         textView.font = NSFont(name: "PingFang-SC-Regular", size: 15)
         textView.delegate = self
+    }
+    
+    // MARK: - Public
+    
+    func set(text: String, url: URL) {
+        textView.string = text
+        currentURL = url
     }
     
     // MARK: - Method
