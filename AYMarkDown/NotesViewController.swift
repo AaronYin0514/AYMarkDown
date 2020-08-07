@@ -43,6 +43,10 @@ class NotesViewController: NSViewController {
         query.start()
     }
     
+    func clear() {
+        tableView.deselectAll(nil)
+    }
+    
     @objc func finishedGetNewDocument(_ notification: Notification) {
         guard let URL = currentURL else {
             return

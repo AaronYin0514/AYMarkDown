@@ -19,8 +19,12 @@ class AYWindowController: NSWindowController {
     }
 
     @IBAction func editAction(_ sender: NSButton) {
-        print("点击了button")
-        
+        guard let _ = viewController.documnetViewController.selectedURL else {
+            alert("请先选择一个文件夹")
+            return
+        }
+        viewController.notesViewController.clear()
+        viewController.markdownViewController.clear()
     }
     
     @IBAction func saveAction(_ sender: Any) {

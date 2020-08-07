@@ -41,6 +41,11 @@ class MarkDwonViewController: NSViewController {
         currentURL = url
     }
     
+    func clear() {
+        textView.string = ""
+        currentURL = nil
+    }
+    
     // MARK: - Method
     
     private func parsingMarkDown(_ string: String) {
