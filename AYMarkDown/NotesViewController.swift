@@ -16,6 +16,10 @@ class NotesViewController: NSViewController {
     
     @IBOutlet weak var scrollView: NSScrollView!
     
+    var selectedRow: Int {
+        return tableView.selectedRow
+    }
+    
     private var tableView: NSTableView {
         return scrollView.documentView as! NSTableView
     }
@@ -44,8 +48,47 @@ class NotesViewController: NSViewController {
         tableView.reloadData()
     }
     
+    func replace(_ document: AYDocument, by url: URL) {
+        var index: Int = NSNotFound
+        for (idx, d) in dataSource.enumerated() {
+            if d.remoteFileURL == url {
+                index = idx
+                break
+            }
+        }
+        if index != NSNotFound {
+            dataSource[index] = document
+            tableView.reloadData()
+        }
+    }
+    
     func clear() {
         tableView.deselectAll(nil)
+    }
+    
+    func select(row: Int) {
+        if row < 0 || row >= dataSource.count {
+            return
+        }
+        let indexs = IndexSet(arrayLiteral: row)
+        tableView.selectRowIndexes(indexs, byExtendingSelection: false)
+        let d = dataSource[row]
+        if let text = d.text, let url = d.remoteFileURL {
+            didSelectDocument?(text, url)
+        }
+    }
+    
+    func select(url: URL) {
+        var index: Int = NSNotFound
+        for (idx, d) in dataSource.enumerated() {
+            if d.remoteFileURL == url {
+                index = idx
+                break
+            }
+        }
+        if index != NSNotFound {
+            select(row: index)
+        }
     }
     
     private func _loadData(_ url: URL, forcedRefresh: Bool) {

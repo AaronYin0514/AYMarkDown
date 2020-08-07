@@ -57,6 +57,7 @@ class AYWindowController: NSWindowController {
                     self.alert("iCloud创建失败 - \(error!.localizedDescription)")
                 } else {
                     self.viewController.notesViewController.insert(document)
+                    self.viewController.notesViewController.select(row: 0)
                     //self.alert("创建成功")
                 }
             }
@@ -73,7 +74,9 @@ class AYWindowController: NSWindowController {
                 if error != nil {
                     self.alert("iCloud保存失败 - \(error!.localizedDescription)")
                 } else {
-                    self.alert("保存成功")
+                    self.viewController.notesViewController.replace(document, by: url)
+                    self.viewController.notesViewController.select(url: url)
+                    //self.alert("保存成功")
                 }
             }
         } catch {

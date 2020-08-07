@@ -28,8 +28,8 @@ class AYDocument: NSDocument {
     }
     
     override func save(to url: URL, ofType typeName: String, for saveOperation: NSDocument.SaveOperationType, completionHandler: @escaping (Error?) -> Void) {
-        super.save(to: url, ofType: typeName, for: saveOperation, completionHandler: completionHandler)
         remoteFileURL = url
+        super.save(to: url, ofType: typeName, for: saveOperation, completionHandler: completionHandler)
     }
     
     override func read(from data: Data, ofType typeName: String) throws {
