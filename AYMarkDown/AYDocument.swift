@@ -12,16 +12,23 @@ class AYDocument: NSDocument {
     
     private var _ay_data: Data?
     
-    private(set) var text: String?
+    var text: String? {
+        didSet {
+            if let data = text?.data(using: .utf8) {
+                _ay_data = data
+            }
+        }
+    }
     
     private(set) var remoteFileURL: URL?
     
-    func set(data: Data) {
-        _ay_data = data
-    }
-    
     override func read(from url: URL, ofType typeName: String) throws {
         try super.read(from: url, ofType: typeName)
+        remoteFileURL = url
+    }
+    
+    override func save(to url: URL, ofType typeName: String, for saveOperation: NSDocument.SaveOperationType, completionHandler: @escaping (Error?) -> Void) {
+        super.save(to: url, ofType: typeName, for: saveOperation, completionHandler: completionHandler)
         remoteFileURL = url
     }
     

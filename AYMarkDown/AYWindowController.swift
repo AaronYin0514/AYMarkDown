@@ -50,18 +50,14 @@ class AYWindowController: NSWindowController {
         let fileName = "\(dateName).md"
         let fileURL = docURL.appendingPathComponent(fileName)
         do {
-//            let document = try AYDocument(contentsOf: fileURL, ofType: "markdown")
             let document = try AYDocument(type: "md")
-            guard let data = text.data(using: .utf8) else {
-                alert("数据转换失败")
-                return
-            }
-            document.set(data: data)
+            document.text = text
             document.save(to: fileURL, ofType: "md", for: .saveAsOperation) { [unowned self] (error) in
                 if error != nil {
                     self.alert("iCloud创建失败 - \(error!.localizedDescription)")
                 } else {
-                    self.alert("创建成功")
+                    self.viewController.notesViewController.insert(document)
+                    //self.alert("创建成功")
                 }
             }
         } catch {
@@ -72,11 +68,7 @@ class AYWindowController: NSWindowController {
     private func saveNote(_ url: URL, _ text: String) {
         do {
             let document = try AYDocument(type: "md")
-            guard let data = text.data(using: .utf8) else {
-                alert("数据转换失败")
-                return
-            }
-            document.set(data: data)
+            document.text = text
             document.save(to: url, ofType: "md", for: .saveOperation) { [unowned self] (error) in
                 if error != nil {
                     self.alert("iCloud保存失败 - \(error!.localizedDescription)")

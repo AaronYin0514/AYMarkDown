@@ -32,7 +32,24 @@ class NotesViewController: NSViewController {
     }
     
     func loadData(_ url: URL) {
-        if url == currentURL {
+        _loadData(url, forcedRefresh: false)
+    }
+    
+    func reloadData(_ url: URL) {
+        _loadData(url, forcedRefresh: true)
+    }
+    
+    func insert(_ document: AYDocument) {
+        dataSource.insert(document, at: 0)
+        tableView.reloadData()
+    }
+    
+    func clear() {
+        tableView.deselectAll(nil)
+    }
+    
+    private func _loadData(_ url: URL, forcedRefresh: Bool) {
+        if !forcedRefresh && url == currentURL {
             return
         }
         dataSource.removeAll()
@@ -41,10 +58,6 @@ class NotesViewController: NSViewController {
             NSMetadataQueryUbiquitousDocumentsScope
         ]
         query.start()
-    }
-    
-    func clear() {
-        tableView.deselectAll(nil)
     }
     
     @objc func finishedGetNewDocument(_ notification: Notification) {
@@ -75,7 +88,6 @@ class NotesViewController: NSViewController {
                 continue
             }
             do {
-//                let document = try AYDocument(contentsOf: url, ofType: "md")
                 let document = try AYDocument(type: "md")
                 try document.read(from: url, ofType: "md")
                 dataSource.append(document)
