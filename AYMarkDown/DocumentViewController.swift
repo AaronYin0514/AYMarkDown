@@ -52,6 +52,14 @@ class DocumentViewController: NSViewController {
         urls.append(url)
     }
     
+    private func fixData(_ row: Int, _ name: String, _ url: URL) {
+        if row >= names.count {
+            return
+        }
+        names[row] = name
+        urls[row] = url
+    }
+    
     @objc func finishedGetNewDocument(_ notification: Notification) {
         print("current thread: ---- \(Thread.current)")
         let query = notification.object as! NSMetadataQuery
@@ -86,10 +94,19 @@ class DocumentViewController: NSViewController {
     }
     
     private func didEditTitle(row: Int, string: String) {
-        if string.count != 0 && row < names.count {
-            names[row] = string
+        if string.count == 0 || row >= urls.count {
+            return
         }
-        tableView.reloadData()
+        do {
+            if let newURL = try renameDocument(url: urls[row], newName: string) {
+                fixData(row, string, newURL)
+                tableView.reloadData()
+                alert("名称修改成功")
+            }
+        } catch {
+            tableView.reloadData()
+            alert("名称修改失败 - \(error.localizedDescription)")
+        }
     }
     
     private func createDocument() {
@@ -97,7 +114,7 @@ class DocumentViewController: NSViewController {
             alert("请先开启iCloud功能")
             return
         }
-        let sysDocumentsURL = url.appendingPathComponent("Documents")
+        let sysDocumentsURL = url.appendingPathComponent("Documents", isDirectory: true)
         var index = 0
         for s in names {
             if s.hasPrefix("新建文件夹") {
@@ -106,15 +123,36 @@ class DocumentViewController: NSViewController {
         }
         let name = index == 0 ? "新建文件夹" : "新建文件夹\(index)"
         let newDucumentURL = sysDocumentsURL.appendingPathComponent(name)
-        
         do {
             try FileManager.default.createDirectory(at: newDucumentURL, withIntermediateDirectories: true, attributes: nil)
             addData(name, newDucumentURL)
             tableView.reloadData()
         } catch {
+            alert("文件夹创建失败 - \(error.localizedDescription)")
             print(error)
         }
         
+    }
+    
+    private func renameDocument(url: URL, newName: String) throws -> URL? {
+        guard let rootURL = checkIClould() else {
+            alert("请先开启iCloud功能")
+            return nil
+        }
+        let sysDocumentsURL = rootURL.appendingPathComponent("Documents", isDirectory: true)
+        let newURL = sysDocumentsURL.appendingPathComponent(newName, isDirectory: true)
+        
+        try FileManager.default.moveItem(at: url, to: newURL)
+        
+        return newURL
+        
+//        try FileManager.default.createDirectory(at: newURL, withIntermediateDirectories: true, attributes: nil)
+//        let dirEnum = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil)
+//        while let content = dirEnum?.nextObject() as? URL {
+//            let newContentURL = newURL.appendingPathComponent(content.lastPathComponent)
+//            try FileManager.default.moveItem(at: content, to: newContentURL)
+//        }
+//        try FileManager.default.removeItem(at: url)
     }
     
     private func checkIClould() -> URL? {

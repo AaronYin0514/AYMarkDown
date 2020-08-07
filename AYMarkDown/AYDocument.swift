@@ -25,7 +25,7 @@ class AYDocument: NSDocument {
     
     override func data(ofType typeName: String) throws -> Data {
         if _ay_data == nil {
-            throw ZYError.markdownSaveDataNull
+            throw AYError.markdownSaveDataNull
         }
         return _ay_data!
     }
