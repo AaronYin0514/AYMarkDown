@@ -195,6 +195,16 @@ class NoteTableCell: NSView {
     
     static let cellID = NSUserInterfaceItemIdentifier(rawValue: "NoteTableCellID")
     
+    let titleTextField: NSTextField = {
+        let textField = NSTextField(wrappingLabelWithString: "")
+        textField.isBordered = false
+        textField.isEditable = false
+        textField.isSelectable = false
+        textField.backgroundColor = NSColor.clear
+        textField.font = NSFont(name: "PingFang-SC-Semibold", size: 14)
+        return textField
+    }()
+    
     let textField: NSTextField = {
         let textField = NSTextField(wrappingLabelWithString: "")
         textField.isBordered = false
@@ -205,12 +215,27 @@ class NoteTableCell: NSView {
         return textField
     }()
     
+    let lineView: NSView = {
+        let view = NSView(frame: .zero)
+        view.wantsLayer = true
+        view.layer?.backgroundColor = NSColor.lightGray.cgColor
+        return view
+    }()
+    
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
+        addSubview(titleTextField)
         addSubview(textField)
+        addSubview(lineView)
         
         textField.snp.makeConstraints { (maker) in
             maker.edges.equalTo(NSEdgeInsetsMake(4, 8, 4, 8))
+        }
+        lineView.snp.makeConstraints { (maker) in
+            maker.left.equalToSuperview().offset(8)
+            maker.right.equalToSuperview()
+            maker.height.equalTo(0.5)
+            maker.bottom.equalToSuperview()
         }
     }
     
