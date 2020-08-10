@@ -114,6 +114,7 @@
 		9309E50D24D824CF005EF8C8 /* AYMarkDown */ = {
 			isa = PBXGroup;
 			children = (
+				93CA0E1B24E0CA930013BF9F /* Utils */,
 				9309E53E24D8EB02005EF8C8 /* Resources */,
 				9309E51E24D8255A005EF8C8 /* Markdown */,
 				9309E50E24D824CF005EF8C8 /* AppDelegate.swift */,
@@ -138,21 +139,21 @@
 			children = (
 				9309E52824D8255A005EF8C8 /* MMMarkdown.h */,
 				9309E51F24D8255A005EF8C8 /* MMMarkdown.m */,
+				9309E52924D8255A005EF8C8 /* MMParser.h */,
 				9309E52024D8255A005EF8C8 /* MMParser.m */,
+				9309E52E24D8255A005EF8C8 /* MMDocument.h */,
 				9309E52124D8255A005EF8C8 /* MMDocument.m */,
+				9309E52F24D8255A005EF8C8 /* MMSpanParser.h */,
 				9309E52224D8255A005EF8C8 /* MMSpanParser.m */,
 				9309E52324D8255A005EF8C8 /* MMGenerator.h */,
+				9309E52D24D8255A005EF8C8 /* MMGenerator.m */,
+				9309E52B24D8255A005EF8C8 /* MMScanner.h */,
 				9309E52424D8255A005EF8C8 /* MMScanner.m */,
 				9309E52524D8255A005EF8C8 /* MMHTMLParser.h */,
+				9309E52C24D8255A005EF8C8 /* MMHTMLParser.m */,
+				9309E52A24D8255A005EF8C8 /* MMElement.h */,
 				9309E52624D8255A005EF8C8 /* MMElement.m */,
 				9309E52724D8255A005EF8C8 /* MMDocument_Private.h */,
-				9309E52924D8255A005EF8C8 /* MMParser.h */,
-				9309E52A24D8255A005EF8C8 /* MMElement.h */,
-				9309E52B24D8255A005EF8C8 /* MMScanner.h */,
-				9309E52C24D8255A005EF8C8 /* MMHTMLParser.m */,
-				9309E52D24D8255A005EF8C8 /* MMGenerator.m */,
-				9309E52E24D8255A005EF8C8 /* MMDocument.h */,
-				9309E52F24D8255A005EF8C8 /* MMSpanParser.h */,
 			);
 			path = Markdown;
 			sourceTree = "<group>";
@@ -173,6 +174,13 @@
 				003F533E33C513C03C9D8BA2 /* Pods_AYMarkDown.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		93CA0E1B24E0CA930013BF9F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -243,6 +243,33 @@ static NSString * __HTMLEndTagForElement(MMElement *anElement)
     return HTML;
 }
 
+- (NSAttributedString *)generateRichText:(MMDocument *)aDocument {
+    NSString   *markdown = aDocument.markdown;
+    NSMutableAttributedString *RICH = [[NSMutableAttributedString alloc] init];
+    for (MMElement *element in aDocument.elements) {
+        if (element.type == MMElementTypeHeader) {
+            MMElement *e = element.children.firstObject;
+            if (e) {
+                NSInteger level = element.level > 3 ? 3 : element.level;
+                CGFloat size = 13 + (3 - level);
+                NSString *header = [NSString stringWithFormat:@"%@\n", [markdown substringWithRange:e.range]];
+                NSAttributedString *content = [[NSAttributedString alloc] initWithString:header attributes:@{
+                    NSFontAttributeName: [NSFont fontWithName:@"PingFang-SC-Semibold" size:size],
+                    NSForegroundColorAttributeName: [NSColor blueColor]
+                }];
+                [RICH appendAttributedString:content];
+            }
+        } else {
+            NSAttributedString *content = [[NSAttributedString alloc] initWithString:[markdown substringWithRange:element.range] attributes:@{
+                NSFontAttributeName: [NSFont fontWithName:@"PingFang-SC-Regular" size:13],
+                NSForegroundColorAttributeName: [NSColor lightGrayColor]
+            }];
+            [RICH appendAttributedString:content];
+        }
+    }
+    return RICH;
+}
+
 
 #pragma mark - Private Methods
 

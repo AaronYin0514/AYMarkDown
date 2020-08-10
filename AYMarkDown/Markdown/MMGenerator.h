@@ -24,7 +24,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <AppKit/AppKit.h>
 
 @class MMDocument;
 
@@ -34,6 +34,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) NSString *imgClick;
 
 - (NSString *)generateHTML:(MMDocument *)aDocument;
+
+- (NSAttributedString *)generateRichText:(MMDocument *)aDocument;
 
 @end
 NS_ASSUME_NONNULL_END

@@ -12,15 +12,19 @@ class AYDocument: NSDocument {
     
     private var _ay_data: Data?
     
-    var text: String? {
-        didSet {
-            if let data = text?.data(using: .utf8) {
-                _ay_data = data
-            }
-        }
-    }
+    private(set) var text: String?
     
     private(set) var remoteFileURL: URL?
+    
+    /// 标题 - Markdown解析的标题，第一个
+    private(set) var richText: NSAttributedString?
+    
+    func setText(_ text: String) {
+        self.text = text
+        if let data = text.data(using: .utf8) {
+            _ay_data = data
+        }
+    }
     
     override func read(from url: URL, ofType typeName: String) throws {
         try super.read(from: url, ofType: typeName)
@@ -35,6 +39,9 @@ class AYDocument: NSDocument {
     override func read(from data: Data, ofType typeName: String) throws {
         _ay_data = data
         text = String(data: data, encoding: .utf8)
+        if text != nil {
+            richText = MMMarkdown.test(text!)
+        }
     }
     
     override func data(ofType typeName: String) throws -> Data {
@@ -43,5 +50,7 @@ class AYDocument: NSDocument {
         }
         return _ay_data!
     }
+    
+    
     
 }

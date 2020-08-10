@@ -51,7 +51,7 @@ class AYWindowController: NSWindowController {
         let fileURL = docURL.appendingPathComponent(fileName)
         do {
             let document = try AYDocument(type: "md")
-            document.text = text
+            document.setText(text)
             document.save(to: fileURL, ofType: "md", for: .saveAsOperation) { [unowned self] (error) in
                 if error != nil {
                     self.alert("iCloud创建失败 - \(error!.localizedDescription)")
@@ -69,7 +69,7 @@ class AYWindowController: NSWindowController {
     private func saveNote(_ url: URL, _ text: String) {
         do {
             let document = try AYDocument(type: "md")
-            document.text = text
+            document.setText(text)
             document.save(to: url, ofType: "md", for: .saveOperation) { [unowned self] (error) in
                 if error != nil {
                     self.alert("iCloud保存失败 - \(error!.localizedDescription)")

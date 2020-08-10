@@ -78,5 +78,15 @@
     return [generator generateHTML:document];
 }
 
++ (NSAttributedString *)testString:(NSString *)string {
+    MMParser    *parser    = [[MMParser alloc] initWithExtensions:MMMarkdownExtensionsGitHubFlavored];
+    MMGenerator *generator = [MMGenerator new];
+//    generator.imgClick = imgClick;
+    
+    MMDocument *document = [parser parseMarkdown:string error:nil];
+    
+    return [generator generateRichText:document];
+}
+
 
 @end

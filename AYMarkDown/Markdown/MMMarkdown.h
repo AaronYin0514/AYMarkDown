@@ -87,5 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param error error
 + (NSString *)HTMLStringWithMarkdown:(NSString *)string extensions:(MMMarkdownExtensions)extensions imgClick:(NSString * _Nullable)imgClick fromSelector:(SEL)selector error:(__autoreleasing NSError **)error;
 
++ (NSAttributedString *)testString:(NSString *)string;
+
 @end
 NS_ASSUME_NONNULL_END

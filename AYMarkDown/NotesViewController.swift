@@ -157,7 +157,7 @@ extension NotesViewController: NSTableViewDataSource, NSTableViewDelegate {
     }
     
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 60
+        return 120
     }
     
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
@@ -166,7 +166,11 @@ extension NotesViewController: NSTableViewDataSource, NSTableViewDelegate {
             view = NoteTableCell(frame: .zero)
         }
         if row < dataSource.count {
-            view?.textField.stringValue = dataSource[row].text ?? ""
+            if dataSource[row].richText != nil {
+                view?.textField.attributedStringValue = dataSource[row].richText!
+            } else {
+                view?.textField.stringValue = dataSource[row].text ?? ""
+            }
         }
         return view
     }
@@ -195,47 +199,35 @@ class NoteTableCell: NSView {
     
     static let cellID = NSUserInterfaceItemIdentifier(rawValue: "NoteTableCellID")
     
-    let titleTextField: NSTextField = {
-        let textField = NSTextField(wrappingLabelWithString: "")
-        textField.isBordered = false
-        textField.isEditable = false
-        textField.isSelectable = false
-        textField.backgroundColor = NSColor.clear
-        textField.font = NSFont(name: "PingFang-SC-Semibold", size: 14)
-        return textField
+    let textFieldBackground: NSView = {
+        let view = NSView(frame: .zero)
+        view.wantsLayer = true
+        view.layer?.backgroundColor = NSColor.white.cgColor
+        view.layer?.cornerRadius = 6
+        view.layer?.borderColor = NSColor.lightGray.cgColor
+        view.layer?.borderWidth = 0.5
+        return view
     }()
     
     let textField: NSTextField = {
         let textField = NSTextField(wrappingLabelWithString: "")
+        textField.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
         textField.isBordered = false
         textField.isEditable = false
         textField.isSelectable = false
-        textField.backgroundColor = NSColor.clear
         textField.font = NSFont(name: "PingFang-SC-Semibold", size: 14)
         return textField
     }()
     
-    let lineView: NSView = {
-        let view = NSView(frame: .zero)
-        view.wantsLayer = true
-        view.layer?.backgroundColor = NSColor.lightGray.cgColor
-        return view
-    }()
-    
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        addSubview(titleTextField)
-        addSubview(textField)
-        addSubview(lineView)
-        
-        textField.snp.makeConstraints { (maker) in
-            maker.edges.equalTo(NSEdgeInsetsMake(4, 8, 4, 8))
+        addSubview(textFieldBackground)
+        textFieldBackground.addSubview(textField)
+        textFieldBackground.snp.makeConstraints { (maker) in
+            maker.edges.equalTo(NSEdgeInsetsMake(8, 8, 8, 8))
         }
-        lineView.snp.makeConstraints { (maker) in
-            maker.left.equalToSuperview().offset(8)
-            maker.right.equalToSuperview()
-            maker.height.equalTo(0.5)
-            maker.bottom.equalToSuperview()
+        textField.snp.makeConstraints { (maker) in
+            maker.edges.equalTo(NSEdgeInsetsMake(8, 8, 8, 8))
         }
     }
     
