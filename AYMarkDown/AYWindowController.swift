@@ -40,6 +40,23 @@ class AYWindowController: NSWindowController {
         }
     }
     
+    @IBAction func imageAction(_ sender: NSButton) {
+        print("Image Action")
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.allowsOtherFileTypes = false
+        panel.allowedFileTypes = ["png", "jpeg", "jpg"]
+        panel.beginSheetModal(for: NSApplication.shared.windows.first!) { [unowned panel] (response) in
+            if response == .OK {
+                if let url = panel.urls.first {
+                    self.uploadImage(with: url)
+                }
+            }
+        }
+    }
+    
     private func createNote(_ text: String) {
         guard let docURL = viewController.documnetViewController.selectedURL else {
             alert("请先选中一个文件夹")
@@ -81,6 +98,41 @@ class AYWindowController: NSWindowController {
             }
         } catch {
             alert("保存失败 - \(error.localizedDescription)")
+        }
+    }
+    
+    private func uploadImage(with url: URL) {
+        guard let noteURL = viewController.markdownViewController.currentURL else {
+            alert("请先选中一个文件")
+            return
+        }
+        let docURL = noteURL.deletingLastPathComponent()
+        var suffix = "jpg"
+        if url.absoluteString.hasSuffix("png") || url.absoluteString.hasSuffix("PNG") {
+            suffix = "png"
+        } else if url.absoluteString.hasSuffix("jpg") || url.absoluteString.hasSuffix("JPG") {
+            suffix = "jpg"
+        } else if url.absoluteString.hasSuffix("jpeg") || url.absoluteString.hasSuffix("JPEG") {
+            suffix = "jpeg"
+        }
+        var dateName = "\(NSDate().timeIntervalSince1970)"
+        dateName = dateName.replacingOccurrences(of: ".", with: "_")
+        let fileName = "\(dateName).\(suffix)"
+        let fileURL = docURL.appendingPathComponent(fileName)
+        do {
+            let document = try AYDocument(type: "img")
+            try document.setImage(url)
+            document.save(to: fileURL, ofType: "img", for: .saveOperation) { [unowned self] (error) in
+                if error != nil {
+                    self.alert("图片iCloud保存失败 - \(error!.localizedDescription)")
+                } else {
+                    self.viewController.markdownViewController.insetImage(with: fileURL)
+//                    self.alert("保存成功")
+                }
+            }
+            print("图片获取成功")
+        } catch {
+            print("获取图片失败 - \(error.localizedDescription)")
         }
     }
     

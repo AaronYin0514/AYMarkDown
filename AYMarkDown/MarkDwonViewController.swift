@@ -19,7 +19,12 @@ class MarkDwonViewController: NSViewController {
     
     @IBOutlet weak var scrollView: NSScrollView!
     
-    @IBOutlet weak var webView: WKWebView!
+    @IBOutlet weak var webView: WKWebView! {
+        didSet {
+            webView.configuration.preferences.setValue(NSNumber(booleanLiteral: true), forKey: "allowFileAccessFromFileURLs")
+            webView.navigationDelegate = self
+        }
+    }
     
     private var textView: NSTextView {
         return scrollView.documentView as! NSTextView
@@ -44,6 +49,11 @@ class MarkDwonViewController: NSViewController {
     func clear() {
         textView.string = ""
         currentURL = nil
+    }
+    
+    func insetImage(with url: URL) {
+        textView.string = textView.string + "![](\(url.absoluteString))"
+        parsingMarkDown(textView.string)
     }
     
     // MARK: - Method
@@ -72,7 +82,9 @@ class MarkDwonViewController: NSViewController {
     }
     
     func refresh(_ markdown: String) {
-        webView.loadHTMLString(markdown, baseURL: nil)
+//        webView.loadHTMLString(markdown, baseURL: nil)
+//        webView.loadHTMLString(markdown, baseURL: URL(string: "file:///"))
+        webView.loadHTMLString(markdown, baseURL: URL(string: "file://"))
     }
     
 }
@@ -84,6 +96,14 @@ extension MarkDwonViewController: NSTextViewDelegate {
             parsingMarkDown(textView.string)
         }
         return true
+    }
+    
+}
+
+extension MarkDwonViewController: WKNavigationDelegate {
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        decisionHandler(.allow)
     }
     
 }

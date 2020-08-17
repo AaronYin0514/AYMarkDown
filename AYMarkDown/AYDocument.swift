@@ -10,11 +10,19 @@ import AppKit
 
 class AYDocument: NSDocument {
     
+    enum DocumentType {
+        case text, image
+    }
+    
     private var _ay_data: Data?
     
     private(set) var text: String?
     
+    private(set) var image: NSImage?
+    
     private(set) var remoteFileURL: URL?
+    
+    var documentType = DocumentType.text
     
     /// 标题 - Markdown解析的标题，第一个
     private(set) var richText: NSAttributedString?
@@ -24,6 +32,10 @@ class AYDocument: NSDocument {
         if let data = text.data(using: .utf8) {
             _ay_data = data
         }
+    }
+    
+    func setImage(_ url: URL) throws {
+        _ay_data = try Data(contentsOf: url)
     }
     
     override func read(from url: URL, ofType typeName: String) throws {
@@ -38,6 +50,7 @@ class AYDocument: NSDocument {
     
     override func read(from data: Data, ofType typeName: String) throws {
         _ay_data = data
+        
         text = String(data: data, encoding: .utf8)
         if text != nil {
             richText = MMMarkdown.test(text!)
