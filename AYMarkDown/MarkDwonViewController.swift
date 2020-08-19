@@ -56,6 +56,67 @@ class MarkDwonViewController: NSViewController {
         parsingMarkDown(textView.string)
     }
     
+    func insetImageLink() {
+        textView.string = textView.string + "![]()"
+        
+    }
+    
+    func insertH1() {
+        textView.string = textView.string + "# "
+    }
+    
+    func insertH2() {
+        textView.string = textView.string + "## "
+    }
+    
+    func insertH3() {
+        textView.string = textView.string + "### "
+    }
+    
+    func insertH4() {
+        textView.string = textView.string + "#### "
+    }
+    
+    func insertH5() {
+        textView.string = textView.string + "##### "
+    }
+    
+    func insertH6() {
+        textView.string = textView.string + "###### "
+    }
+    
+    func insertLink() {
+        textView.string = textView.string + "[]()"
+    }
+    
+    func insertStrong() {
+        textView.string = textView.string + "****"
+    }
+    
+    func insertEmphasize() {
+        textView.string = textView.string + "**"
+    }
+    
+    func insertClockquote() {
+        textView.string = textView.string + "> "
+    }
+    
+    func insertCode() {
+        textView.string = textView.string + "```\n\n```"
+    }
+    
+    func insertTable() {
+        
+    }
+    
+    func insertUnorderedList() {
+        textView.string = textView.string + "* "
+    }
+    
+    func insertOrderedList() {
+        textView.string = textView.string + "1. "
+    }
+    
     // MARK: - Method
     
     private func parsingMarkDown(_ string: String) {

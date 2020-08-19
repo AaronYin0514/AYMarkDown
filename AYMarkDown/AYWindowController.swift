@@ -18,45 +18,6 @@ class AYWindowController: NSWindowController {
         super.windowDidLoad()
         createResourcesDocument()
     }
-
-    @IBAction func editAction(_ sender: NSButton) {
-        guard let _ = viewController.documnetViewController.selectedURL else {
-            alert("请先选择一个文件夹")
-            return
-        }
-        viewController.notesViewController.clear()
-        viewController.markdownViewController.clear()
-    }
-    
-    @IBAction func saveAction(_ sender: Any) {
-        let text = viewController.markdownViewController.text
-        if text.count == 0 {
-            alert("文章不能为空")
-            return
-        }
-        if let noteURL = viewController.markdownViewController.currentURL {
-            saveNote(noteURL, text)
-        } else {
-            createNote(text)
-        }
-    }
-    
-    @IBAction func imageAction(_ sender: NSButton) {
-        print("Image Action")
-        let panel = NSOpenPanel()
-        panel.canChooseFiles = true
-        panel.canChooseDirectories = false
-        panel.allowsMultipleSelection = false
-        panel.allowsOtherFileTypes = false
-        panel.allowedFileTypes = ["png", "jpeg", "jpg"]
-        panel.beginSheetModal(for: NSApplication.shared.windows.first!) { [unowned panel] (response) in
-            if response == .OK {
-                if let url = panel.urls.first {
-                    self.uploadImage(with: url)
-                }
-            }
-        }
-    }
     
     private func createNote(_ text: String) {
         guard let docURL = viewController.documnetViewController.selectedURL else {
@@ -164,6 +125,107 @@ class AYWindowController: NSWindowController {
     
     private func checkIClould() -> URL? {
         FileManager.default.url(forUbiquityContainerIdentifier: "iCloud.com.aaron.brain")
+    }
+    
+    // MARK: - Action
+    
+    @IBAction func editAction(_ sender: NSButton) {
+        guard let _ = viewController.documnetViewController.selectedURL else {
+            alert("请先选择一个文件夹")
+            return
+        }
+        viewController.notesViewController.clear()
+        viewController.markdownViewController.clear()
+    }
+    
+    @IBAction func saveAction(_ sender: Any) {
+        let text = viewController.markdownViewController.text
+        if text.count == 0 {
+            alert("文章不能为空")
+            return
+        }
+        if let noteURL = viewController.markdownViewController.currentURL {
+            saveNote(noteURL, text)
+        } else {
+            createNote(text)
+        }
+    }
+    
+    @IBAction func imageAction(_ sender: NSButton) {
+        print("Image Action")
+        let panel = NSOpenPanel()
+        panel.canChooseFiles = true
+        panel.canChooseDirectories = false
+        panel.allowsMultipleSelection = false
+        panel.allowsOtherFileTypes = false
+        panel.allowedFileTypes = ["png", "jpeg", "jpg"]
+        panel.beginSheetModal(for: NSApplication.shared.windows.first!) { [unowned panel] (response) in
+            if response == .OK {
+                if let url = panel.urls.first {
+                    self.uploadImage(with: url)
+                }
+            }
+        }
+    }
+    
+    @IBAction func imageLinkAction(_ sender: NSButton) {
+        viewController.markdownViewController.insetImageLink()
+    }
+    
+    @IBAction func h1Action(_ sender: NSButton) {
+        viewController.markdownViewController.insertH1()
+    }
+    
+    @IBAction func h2Action(_ sender: NSButton) {
+        viewController.markdownViewController.insertH2()
+    }
+    
+    @IBAction func h3Action(_ sender: NSButton) {
+        viewController.markdownViewController.insertH3()
+    }
+    
+    @IBAction func h4Action(_ sender: NSButton) {
+        viewController.markdownViewController.insertH4()
+    }
+    
+    @IBAction func h5Action(_ sender: NSButton) {
+        viewController.markdownViewController.insertH5()
+    }
+    
+    @IBAction func h6Action(_ sender: NSButton) {
+        viewController.markdownViewController.insertH6()
+    }
+    
+    @IBAction func linkAction(_ sender: NSButton) {
+        viewController.markdownViewController.insertLink()
+    }
+    
+    @IBAction func strongAction(_ sender: NSButton) {
+        viewController.markdownViewController.insertStrong()
+    }
+    
+    @IBAction func emphasizeAction(_ sender: NSButton) {
+        viewController.markdownViewController.insertEmphasize()
+    }
+    
+    @IBAction func clockquoteAction(_ sender: NSButton) {
+        viewController.markdownViewController.insertClockquote()
+    }
+    
+    @IBAction func codeAction(_ sender: NSButton) {
+        viewController.markdownViewController.insertCode()
+    }
+    
+    @IBAction func tableAction(_ sender: NSButton) {
+        viewController.markdownViewController.insertTable()
+    }
+    
+    @IBAction func unorderedAction(_ sender: NSButton) {
+        viewController.markdownViewController.insertUnorderedList()
+    }
+    
+    @IBAction func orderedAction(_ sender: NSButton) {
+        viewController.markdownViewController.insertOrderedList()
     }
     
 }
