@@ -16,6 +16,7 @@ class AYWindowController: NSWindowController {
     
     override func windowDidLoad() {
         super.windowDidLoad()
+        createResourcesDocument()
     }
 
     @IBAction func editAction(_ sender: NSButton) {
@@ -101,12 +102,12 @@ class AYWindowController: NSWindowController {
         }
     }
     
-    private func uploadImage(with url: URL) {
-        guard let noteURL = viewController.markdownViewController.currentURL else {
-            alert("请先选中一个文件")
+    private func uploadImage(with imageURL: URL) {
+        guard let url = checkIClould() else {
+            alert("请先开启iCloud功能")
             return
         }
-        let docURL = noteURL.deletingLastPathComponent()
+        let docURL = url.appendingPathComponent("Documents/Resources", isDirectory: true)
         var suffix = "jpg"
         if url.absoluteString.hasSuffix("png") || url.absoluteString.hasSuffix("PNG") {
             suffix = "png"
@@ -121,7 +122,7 @@ class AYWindowController: NSWindowController {
         let fileURL = docURL.appendingPathComponent(fileName)
         do {
             let document = try AYDocument(type: "img")
-            try document.setImage(url)
+            try document.setImage(imageURL)
             document.save(to: fileURL, ofType: "img", for: .saveOperation) { [unowned self] (error) in
                 if error != nil {
                     self.alert("图片iCloud保存失败 - \(error!.localizedDescription)")
@@ -142,6 +143,27 @@ class AYWindowController: NSWindowController {
         alert.informativeText = message
         alert.addButton(withTitle: "确定")
         alert.runModal()
+    }
+    
+    private func createResourcesDocument() {
+        guard let url = checkIClould() else {
+            alert("请先开启iCloud功能")
+            return
+        }
+        let sysDocumentsURL = url.appendingPathComponent("Documents/Resources", isDirectory: true)
+        var isDirectory: ObjCBool = false
+        let exist = FileManager.default.fileExists(atPath: sysDocumentsURL.path, isDirectory: &isDirectory)
+        if !exist || !isDirectory.boolValue {
+            do {
+                try FileManager.default.createDirectory(at: sysDocumentsURL, withIntermediateDirectories: true, attributes: nil)
+            } catch {
+                print("文件夹创建失败 - \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    private func checkIClould() -> URL? {
+        FileManager.default.url(forUbiquityContainerIdentifier: "iCloud.com.aaron.brain")
     }
     
 }

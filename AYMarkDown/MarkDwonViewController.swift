@@ -82,9 +82,30 @@ class MarkDwonViewController: NSViewController {
     }
     
     func refresh(_ markdown: String) {
-//        webView.loadHTMLString(markdown, baseURL: nil)
-//        webView.loadHTMLString(markdown, baseURL: URL(string: "file:///"))
-        webView.loadHTMLString(markdown, baseURL: URL(string: "file://"))
+        guard let url = checkIClould() else {
+            print("请先开启iCloud功能")
+            return
+        }
+        let docURL = url.appendingPathComponent("Documents/Resources", isDirectory: true)
+        let fileName = "tmp.html"
+        let fileURL = docURL.appendingPathComponent(fileName)
+        do {
+            let document = try AYDocument(type: "html")
+            document.setText(markdown)
+            document.save(to: fileURL, ofType: "html", for: .saveOperation) { [unowned self] (error) in
+                if error != nil {
+                    print("iCloud创建失败 - \(error!.localizedDescription)")
+                } else {
+                    self.webView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
+                }
+            }
+        } catch {
+            print("创建失败 - \(error.localizedDescription)")
+        }
+    }
+    
+    private func checkIClould() -> URL? {
+        FileManager.default.url(forUbiquityContainerIdentifier: "iCloud.com.aaron.brain")
     }
     
 }
