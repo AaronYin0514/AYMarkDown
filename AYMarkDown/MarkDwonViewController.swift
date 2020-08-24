@@ -130,9 +130,7 @@ class MarkDwonViewController: NSViewController {
                 do {
                     let formatHTML = try String(contentsOfFile: path, encoding: .utf8)
                     let markdownHTML = formatHTML.replacingOccurrences(of: "${webview_content}", with: contentHTML)
-                    DispatchQueue.main.async {
-                        self.refresh(markdownHTML)
-                    }
+                    self.refresh(markdownHTML)
                 } catch {
                     print("解析MarkDown文本异常 - \(error.localizedDescription)")
                 }
@@ -157,7 +155,9 @@ class MarkDwonViewController: NSViewController {
                 if error != nil {
                     print("iCloud创建失败 - \(error!.localizedDescription)")
                 } else {
-                    self.webView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
+                    DispatchQueue.main.async {
+                        self.webView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
+                    }
                 }
             }
         } catch {
