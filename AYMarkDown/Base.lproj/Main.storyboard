@@ -720,7 +720,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="43ACC5AB-AC7F-4D23-93C3-7C5971194F53" label="" paletteLabel="" sizingBehavior="auto" id="3Dz-qH-cyw">
+                                <toolbarItem implicitItemIdentifier="43ACC5AB-AC7F-4D23-93C3-7C5971194F53" label="⇧⌘I" paletteLabel="⇧⌘I" sizingBehavior="auto" id="3Dz-qH-cyw">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="XJQ-LM-HOu">
                                         <rect key="frame" x="0.0" y="14" width="73" height="25"/>
@@ -734,12 +734,12 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="BC9FCD76-E3DA-47E8-8620-61D14A4532E3" label="" paletteLabel="" sizingBehavior="auto" id="Hty-VN-gTT">
+                                <toolbarItem implicitItemIdentifier="BC9FCD76-E3DA-47E8-8620-61D14A4532E3" label="⇧⌘P" paletteLabel="⇧⌘P" sizingBehavior="auto" id="Hty-VN-gTT">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="WVM-aX-ltX">
                                         <rect key="frame" x="0.0" y="14" width="80" height="25"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <buttonCell key="cell" type="roundTextured" title="远程图片" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vaN-Sv-h81">
+                                        <buttonCell key="cell" type="roundTextured" title="图片链接" bezelStyle="texturedRounded" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vaN-Sv-h81">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                             <font key="font" metaFont="system"/>
                                         </buttonCell>
@@ -748,7 +748,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="5298C318-02C2-451A-9458-76E7EBBE4BCA" label="" paletteLabel="" sizingBehavior="auto" id="LjP-OP-8n6">
+                                <toolbarItem implicitItemIdentifier="5298C318-02C2-451A-9458-76E7EBBE4BCA" label="⌘1" paletteLabel="⌘1" sizingBehavior="auto" id="LjP-OP-8n6">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="eCF-Wm-K3B">
                                         <rect key="frame" x="0.0" y="14" width="37" height="25"/>
@@ -762,7 +762,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="90D5A462-EDC7-451F-BAA2-F46561386140" label="" paletteLabel="" sizingBehavior="auto" id="qFQ-Fu-50u">
+                                <toolbarItem implicitItemIdentifier="90D5A462-EDC7-451F-BAA2-F46561386140" label="⌘2" paletteLabel="⌘2" sizingBehavior="auto" id="qFQ-Fu-50u">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="RqI-gX-N1d">
                                         <rect key="frame" x="0.0" y="14" width="35" height="25"/>
@@ -776,7 +776,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="01AF0DE2-986F-4CC7-ABD2-224C8C16B3AA" label="" paletteLabel="" sizingBehavior="auto" id="GKQ-FU-bp7">
+                                <toolbarItem implicitItemIdentifier="01AF0DE2-986F-4CC7-ABD2-224C8C16B3AA" label="⌘3" paletteLabel="⌘3" sizingBehavior="auto" id="GKQ-FU-bp7">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="sl4-vf-OlG">
                                         <rect key="frame" x="0.0" y="14" width="39" height="25"/>
@@ -790,7 +790,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="3D80EDE4-E9D0-484E-BA8E-C7EE4385B1A1" label="" paletteLabel="" sizingBehavior="auto" id="ggc-6X-Pqq">
+                                <toolbarItem implicitItemIdentifier="3D80EDE4-E9D0-484E-BA8E-C7EE4385B1A1" label="⌘4" paletteLabel="⌘4" sizingBehavior="auto" id="ggc-6X-Pqq">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="KHi-Ug-Etc">
                                         <rect key="frame" x="0.0" y="14" width="39" height="25"/>
@@ -804,7 +804,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="E59B66D5-863D-4668-BECC-B6FC3C20C850" label="" paletteLabel="" sizingBehavior="auto" id="i30-ks-B85">
+                                <toolbarItem implicitItemIdentifier="E59B66D5-863D-4668-BECC-B6FC3C20C850" label="⌘5" paletteLabel="⌘5" sizingBehavior="auto" id="i30-ks-B85">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="o9M-Co-w6W">
                                         <rect key="frame" x="0.0" y="14" width="36" height="25"/>
@@ -818,7 +818,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="FBE1A3E1-8859-4FF4-934F-20A1ED4C618A" label="" paletteLabel="" sizingBehavior="auto" id="Gc5-85-7MA">
+                                <toolbarItem implicitItemIdentifier="FBE1A3E1-8859-4FF4-934F-20A1ED4C618A" label="⌘6" paletteLabel="⌘6" sizingBehavior="auto" id="Gc5-85-7MA">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="biN-dq-stj">
                                         <rect key="frame" x="0.0" y="14" width="35" height="25"/>
@@ -832,7 +832,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="7F512573-8D0F-46EF-AA03-BD3A9829F927" label="" paletteLabel="" sizingBehavior="auto" id="SNh-FG-dzX">
+                                <toolbarItem implicitItemIdentifier="7F512573-8D0F-46EF-AA03-BD3A9829F927" label="⇧⌘K" paletteLabel="⇧⌘K" sizingBehavior="auto" id="SNh-FG-dzX">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="Mbw-nI-KEN">
                                         <rect key="frame" x="0.0" y="14" width="52" height="25"/>
@@ -846,7 +846,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="F4798C74-ADC6-43FC-B6D9-236ECA62CDE8" label="" paletteLabel="" sizingBehavior="auto" id="orB-XS-HxE">
+                                <toolbarItem implicitItemIdentifier="F4798C74-ADC6-43FC-B6D9-236ECA62CDE8" label="⌘B" paletteLabel="⌘B" sizingBehavior="auto" id="orB-XS-HxE">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="3Iv-I5-bbm">
                                         <rect key="frame" x="0.0" y="14" width="44" height="25"/>
@@ -860,7 +860,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="A9B146D3-28A8-414D-AD20-96350EADC572" label="" paletteLabel="" sizingBehavior="auto" id="xwZ-yc-caS">
+                                <toolbarItem implicitItemIdentifier="A9B146D3-28A8-414D-AD20-96350EADC572" label="⌘I" paletteLabel="⌘I" sizingBehavior="auto" id="xwZ-yc-caS">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="c16-wx-Ac1">
                                         <rect key="frame" x="0.0" y="14" width="45" height="25"/>
@@ -874,7 +874,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="9978C8B7-4847-4A69-A669-96FAFE5EC928" label="" paletteLabel="" sizingBehavior="auto" id="Gkb-br-ziS">
+                                <toolbarItem implicitItemIdentifier="9978C8B7-4847-4A69-A669-96FAFE5EC928" label="⇧⌘B" paletteLabel="⇧⌘B" sizingBehavior="auto" id="Gkb-br-ziS">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="Khm-q9-BhV">
                                         <rect key="frame" x="0.0" y="14" width="58" height="25"/>
@@ -888,7 +888,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="E23360B7-024C-49C5-A9CB-034FF216A52A" label="" paletteLabel="" sizingBehavior="auto" id="sgz-de-iVG">
+                                <toolbarItem implicitItemIdentifier="E23360B7-024C-49C5-A9CB-034FF216A52A" label="⌘K" paletteLabel="⌘K" sizingBehavior="auto" id="sgz-de-iVG">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="k7W-T8-ghW">
                                         <rect key="frame" x="0.0" y="14" width="58" height="25"/>
@@ -902,7 +902,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="1EC42CC1-236B-410C-A4A7-4BBEF7FCD826" label="" paletteLabel="" sizingBehavior="auto" id="Jiq-P3-7Tp">
+                                <toolbarItem implicitItemIdentifier="1EC42CC1-236B-410C-A4A7-4BBEF7FCD826" label="⇧⌘T" paletteLabel="⇧⌘T" sizingBehavior="auto" id="Jiq-P3-7Tp">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="ZLd-Wd-wRo">
                                         <rect key="frame" x="0.0" y="14" width="53" height="25"/>
@@ -916,7 +916,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="EB33F5AF-2843-4839-8734-94DC87B9AE71" label="" paletteLabel="" sizingBehavior="auto" id="z3W-Gf-ijW">
+                                <toolbarItem implicitItemIdentifier="EB33F5AF-2843-4839-8734-94DC87B9AE71" label="⇧⌘U" paletteLabel="⇧⌘U" sizingBehavior="auto" id="z3W-Gf-ijW">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="UW2-5a-Qie">
                                         <rect key="frame" x="0.0" y="14" width="87" height="25"/>
@@ -930,7 +930,7 @@
                                         </connections>
                                     </button>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="5021129F-59EA-4360-B416-7E23AC7D5842" label="" paletteLabel="" sizingBehavior="auto" id="3fX-lc-oAN">
+                                <toolbarItem implicitItemIdentifier="5021129F-59EA-4360-B416-7E23AC7D5842" label="⇧⌘O" paletteLabel="⇧⌘O" sizingBehavior="auto" id="3fX-lc-oAN">
                                     <nil key="toolTip"/>
                                     <button key="view" verticalHuggingPriority="750" id="5F6-z0-tyX">
                                         <rect key="frame" x="0.0" y="14" width="78" height="25"/>

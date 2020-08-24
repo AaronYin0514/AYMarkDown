@@ -120,12 +120,14 @@ class NotesViewController: NSViewController {
             guard let type = item.value(forAttribute: NSMetadataItemContentTypeKey) as? String else {
                 continue
             }
-            if type == "public.folder" {
+//            print("type - \(type)")
+            if type != "net.daringfireball.markdown" {
                 continue
             }
             guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL else {
                 continue
             }
+//            print("url - \(url)")
             let parentURL = url.deletingLastPathComponent()
             if parentURL != URL {
                 continue

@@ -151,7 +151,7 @@ class AYWindowController: NSWindowController {
         }
     }
     
-    @IBAction func imageAction(_ sender: NSButton) {
+    @IBAction func imageAction(_ sender: NSButton?) {
         print("Image Action")
         let panel = NSOpenPanel()
         panel.canChooseFiles = true
