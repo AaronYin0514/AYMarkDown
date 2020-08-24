@@ -145,7 +145,7 @@ class MarkDwonViewController: NSViewController {
             print("请先开启iCloud功能")
             return
         }
-        let docURL = url.appendingPathComponent("Documents/Resources", isDirectory: true)
+        let docURL = url.appendingPathComponent("Documents/\(__resources_document_name)", isDirectory: true)
         let fileName = "tmp.html"
         let fileURL = docURL.appendingPathComponent(fileName)
         do {

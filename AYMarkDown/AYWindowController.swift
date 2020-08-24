@@ -8,6 +8,8 @@
 
 import Cocoa
 
+let __resources_document_name = ".__inner_resources__"
+
 class AYWindowController: NSWindowController {
 
     var viewController: ViewController {
@@ -68,7 +70,7 @@ class AYWindowController: NSWindowController {
             alert("请先开启iCloud功能")
             return
         }
-        let docURL = url.appendingPathComponent("Documents/Resources", isDirectory: true)
+        let docURL = url.appendingPathComponent("Documents/\(__resources_document_name)", isDirectory: true)
         var suffix = "jpg"
         if url.absoluteString.hasSuffix("png") || url.absoluteString.hasSuffix("PNG") {
             suffix = "png"
@@ -111,7 +113,7 @@ class AYWindowController: NSWindowController {
             alert("请先开启iCloud功能")
             return
         }
-        let sysDocumentsURL = url.appendingPathComponent("Documents/Resources", isDirectory: true)
+        let sysDocumentsURL = url.appendingPathComponent("Documents/\(__resources_document_name)", isDirectory: true)
         var isDirectory: ObjCBool = false
         let exist = FileManager.default.fileExists(atPath: sysDocumentsURL.path, isDirectory: &isDirectory)
         if !exist || !isDirectory.boolValue {

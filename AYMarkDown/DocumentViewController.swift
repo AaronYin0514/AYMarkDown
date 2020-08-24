@@ -11,6 +11,10 @@ import SnapKit
 
 class DocumentViewController: NSViewController {
     
+    let filterDocuments: [String] = [
+        __resources_document_name
+    ]
+    
     var selectedURL: URL? {
         if tableView.selectedRow < 0 || tableView.selectedRow >= urls.count {
             return nil
@@ -81,6 +85,9 @@ class DocumentViewController: NSViewController {
                 continue
             }
             guard let name = item.value(forAttribute: NSMetadataItemFSNameKey) as? String else {
+                continue
+            }
+            if filterDocuments.contains(name) {
                 continue
             }
             guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL else {
