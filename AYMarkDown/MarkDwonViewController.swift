@@ -51,6 +51,100 @@ class MarkDwonViewController: NSViewController {
         currentURL = nil
     }
     
+    // MARK: - Method
+    
+    
+    
+    private func checkIClould() -> URL? {
+        FileManager.default.url(forUbiquityContainerIdentifier: "iCloud.com.aaron.brain")
+    }
+    
+}
+
+extension MarkDwonViewController: NSTextViewDelegate {
+    
+    func textView(_ textView: NSTextView, shouldChangeTextIn affectedCharRange: NSRange, replacementString: String?) -> Bool {
+        textViewChange(originString: textView.string, affectedCharRange: affectedCharRange, replacementString: replacementString)
+        return true
+    }
+    
+}
+
+extension MarkDwonViewController: WKNavigationDelegate {
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        decisionHandler(.allow)
+    }
+    
+}
+
+// MARK: - 解析MarkDown
+
+extension MarkDwonViewController {
+    
+    private func textViewChange(originString: String, affectedCharRange: NSRange, replacementString: String?) {
+        let string = (originString as NSString).replacingCharacters(in: affectedCharRange, with: replacementString ?? "")
+        NSObject.cancelPreviousPerformRequests(withTarget: self)
+        if replacementString == "\n" {
+            self.perform(#selector(self.parsingMarkDown(_:)), with: string)
+        } else {
+            self.perform(#selector(self.parsingMarkDown(_:)), with: string
+                , afterDelay: 0.25)
+        }
+    }
+    
+    @objc private func parsingMarkDown(_ string: String) {
+        queue.async {
+            var error: NSError?
+            let contentHTML = MMMarkdown.htmlString(withMarkdown: string, extensions: .gitHubFlavored, error: &error)
+            if error == nil {
+                guard let path = Bundle.main.path(forResource: "markdown", ofType: "html") else {
+                    return
+                }
+                do {
+                    let formatHTML = try String(contentsOfFile: path, encoding: .utf8)
+                    let markdownHTML = formatHTML.replacingOccurrences(of: "${webview_content}", with: contentHTML)
+                    self.refresh(markdownHTML)
+                } catch {
+                    print("解析MarkDown文本异常 - \(error.localizedDescription)")
+                }
+            } else {
+                print("解析MarkDown文本异常 - \(error?.localizedDescription ?? "为知错误")")
+            }
+        }
+    }
+    
+    private func refresh(_ markdown: String) {
+        guard let url = checkIClould() else {
+            print("请先开启iCloud功能")
+            return
+        }
+        let docURL = url.appendingPathComponent("Documents/\(__resources_document_name)", isDirectory: true)
+        let fileName = "tmp.html"
+        let fileURL = docURL.appendingPathComponent(fileName)
+        do {
+            let document = try AYDocument(type: "html")
+            document.setText(markdown)
+            document.save(to: fileURL, ofType: "html", for: .saveOperation) { [unowned self] (error) in
+                if error != nil {
+                    print("iCloud创建失败 - \(error!.localizedDescription)")
+                } else {
+                    DispatchQueue.main.async {
+                        self.webView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
+                    }
+                }
+            }
+        } catch {
+            print("创建失败 - \(error.localizedDescription)")
+        }
+    }
+    
+}
+
+// MARK: - 快捷键
+
+extension MarkDwonViewController {
+    
     func insetImage(with url: URL) {
         textView.string = textView.string + "![](\(url.absoluteString))"
         parsingMarkDown(textView.string)
@@ -106,7 +200,12 @@ class MarkDwonViewController: NSViewController {
     }
     
     func insertTable() {
-        
+        textView.string = textView.string + """
+        |  表头   | 表头  |
+        |  ----  | ----  |
+        | 单元格  | 单元格 |
+        | 单元格  | 单元格 |\n
+        """
     }
     
     func insertUnorderedList() {
@@ -115,77 +214,6 @@ class MarkDwonViewController: NSViewController {
     
     func insertOrderedList() {
         textView.string = textView.string + "1. "
-    }
-    
-    // MARK: - Method
-    
-    private func parsingMarkDown(_ string: String) {
-        queue.async {
-            var error: NSError?
-            let contentHTML = MMMarkdown.htmlString(withMarkdown: string, extensions: .gitHubFlavored, error: &error)
-            if error == nil {
-                guard let path = Bundle.main.path(forResource: "markdown", ofType: "html") else {
-                    return
-                }
-                do {
-                    let formatHTML = try String(contentsOfFile: path, encoding: .utf8)
-                    let markdownHTML = formatHTML.replacingOccurrences(of: "${webview_content}", with: contentHTML)
-                    self.refresh(markdownHTML)
-                } catch {
-                    print("解析MarkDown文本异常 - \(error.localizedDescription)")
-                }
-            } else {
-                print("解析MarkDown文本异常 - \(error?.localizedDescription ?? "为知错误")")
-            }
-        }
-    }
-    
-    func refresh(_ markdown: String) {
-        guard let url = checkIClould() else {
-            print("请先开启iCloud功能")
-            return
-        }
-        let docURL = url.appendingPathComponent("Documents/\(__resources_document_name)", isDirectory: true)
-        let fileName = "tmp.html"
-        let fileURL = docURL.appendingPathComponent(fileName)
-        do {
-            let document = try AYDocument(type: "html")
-            document.setText(markdown)
-            document.save(to: fileURL, ofType: "html", for: .saveOperation) { [unowned self] (error) in
-                if error != nil {
-                    print("iCloud创建失败 - \(error!.localizedDescription)")
-                } else {
-                    DispatchQueue.main.async {
-                        self.webView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
-                    }
-                }
-            }
-        } catch {
-            print("创建失败 - \(error.localizedDescription)")
-        }
-    }
-    
-    private func checkIClould() -> URL? {
-        FileManager.default.url(forUbiquityContainerIdentifier: "iCloud.com.aaron.brain")
-    }
-    
-}
-
-extension MarkDwonViewController: NSTextViewDelegate {
-    
-    func textView(_ textView: NSTextView, shouldChangeTextIn affectedCharRange: NSRange, replacementString: String?) -> Bool {
-        if replacementString == "\n" {
-            parsingMarkDown(textView.string)
-        }
-        return true
-    }
-    
-}
-
-extension MarkDwonViewController: WKNavigationDelegate {
-    
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        decisionHandler(.allow)
     }
     
 }
