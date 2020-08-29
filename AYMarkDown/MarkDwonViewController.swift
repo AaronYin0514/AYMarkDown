@@ -64,7 +64,49 @@ class MarkDwonViewController: NSViewController {
 extension MarkDwonViewController: NSTextViewDelegate {
     
     func textView(_ textView: NSTextView, shouldChangeTextIn affectedCharRange: NSRange, replacementString: String?) -> Bool {
-        textViewChange(originString: textView.string, affectedCharRange: affectedCharRange, replacementString: replacementString)
+        let string = (textView.string as NSString).replacingCharacters(in: affectedCharRange, with: replacementString ?? "")
+        var refreshNow = false
+        if replacementString == "\n" {
+            refreshNow = true
+            let range = (textView.string as NSString).range(of: "\n", options: .backwards)
+            if range.location != NSNotFound {
+                let sss = (textView.string as NSString).substring(from: range.location + 1)
+                print("-----------+++++++++ \(sss)")
+                if sss.hasPrefix("* ") {
+                    if sss != "* " {
+                        textView.string = string + "* "
+                        return false
+                    } else {
+                        let length = textView.string.count - range.location - 1
+                        let deleteRange = NSRange(location: range.location + 1, length: length)
+                        let ttt = (textView.string as NSString).replacingCharacters(in: deleteRange, with: "")
+                        textView.string = ttt
+                        return false
+                    }
+                } else {
+                    let pattern = "^[0-9]*\\. "
+                    let regex = try! NSRegularExpression(pattern: pattern, options: NSRegularExpression.Options.caseInsensitive)
+                    if let resultRange = regex.firstMatch(in: sss, options: .anchored, range: NSRange(location: 0, length: sss.count))?.range {
+                        if resultRange.location == 0 && resultRange.length > 2 {
+                            if resultRange.length != sss.count {
+                                let indexString = (sss as NSString).substring(with: NSRange(location: 0, length: resultRange.length - 2))
+                                if let index = Int(indexString) {
+                                    textView.string = string + "\(index + 1). "
+                                    return false
+                                }
+                            } else {
+                                let length = textView.string.count - range.location - 1
+                                let deleteRange = NSRange(location: range.location + 1, length: length)
+                                let ttt = (textView.string as NSString).replacingCharacters(in: deleteRange, with: "")
+                                textView.string = ttt
+                                return false
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        textViewChange(string: string, refreshNow: refreshNow)
         return true
     }
     
@@ -81,6 +123,16 @@ extension MarkDwonViewController: WKNavigationDelegate {
 // MARK: - 解析MarkDown
 
 extension MarkDwonViewController {
+    
+    private func textViewChange(string: String, refreshNow: Bool) {
+        NSObject.cancelPreviousPerformRequests(withTarget: self)
+        if refreshNow {
+            self.perform(#selector(self.parsingMarkDown(_:)), with: string)
+        } else {
+            self.perform(#selector(self.parsingMarkDown(_:)), with: string
+                , afterDelay: 0.25)
+        }
+    }
     
     private func textViewChange(originString: String, affectedCharRange: NSRange, replacementString: String?) {
         let string = (originString as NSString).replacingCharacters(in: affectedCharRange, with: replacementString ?? "")
