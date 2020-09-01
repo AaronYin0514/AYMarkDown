@@ -23,6 +23,8 @@ class DocumentManager: NSObject {
         
         var scops = Scope.ducument
         
+        var type: String?
+        
         var ignoreTypes: [String] = []
         
         var ignoreFiles: [String] = []
@@ -31,19 +33,12 @@ class DocumentManager: NSObject {
     
     // MARK: - Public Method
     
-    override init() {
-        super.init()
-        NotificationCenter.default.addObserver(self, selector: #selector(_metadataQueryDidFinishGathering(_:)), name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: _query)
-    }
-    
     func asyncQuery(_ condition: Condition, completion: @escaping ([Directory]) -> Void) {
-        _queryResultHandler = completion
-        _query(condition)
+        let query = _queryStart(by: condition)
+        _completionHandlers[query] = (condition, completion)
     }
     
     // MARK: - Private
-    
-    private let _query: NSMetadataQuery = NSMetadataQuery()
     
     private let _parseQueue = DispatchQueue(label: "com.document.parse")
     
@@ -53,30 +48,61 @@ class DocumentManager: NSObject {
         return queue
     }()
     
-    private var _queryResultHandler: (([Directory]) -> Void)?
+    private var _completionHandlers: [NSMetadataQuery: (Condition, ([Directory]) -> Void)] = [:]
     
-    private func _queryStart(_ condition: Condition) {
-        _query.searchScopes = condition.scops.stringValues
-        _query.start()
+    private func _queryStart(by condition: Condition) -> NSMetadataQuery {
+        let query = NSMetadataQuery()
+        query.searchScopes = condition.scops.stringValues
+//        query.operationQueue = _queryQueue
+        _addNotification(by: query)
+        query.start()
+        return query
     }
     
-    private func _queryStop() {
-        _query.stop()
+    private func _queryStop(by query: NSMetadataQuery) {
+        query.stop()
+        if _completionHandlers.removeValue(forKey: query) != nil {
+            print("移除成功")
+        }
+        _removeNotification(by: query)
     }
     
-    private func _query(_ condition: Condition) {
-        _query.operationQueue = _queryQueue
-        _queryStart(condition)
+    private func _addNotification(by query: NSMetadataQuery) {
+        let sel = #selector(_metadataQueryDidFinishGathering(_:))
+        NotificationCenter.default.addObserver(self, selector: sel, name: .NSMetadataQueryDidFinishGathering, object: query)
+    }
+    
+    private func _removeNotification(by query: NSMetadataQuery) {
+        NotificationCenter.default.removeObserver(self, name: .NSMetadataQueryDidFinishGathering, object: query)
+    }
+    
+    // MARK: - Utils
+    
+    private let _identifierFomtter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyyMMddHHmmssSSS"
+        return formatter
+    }()
+    
+    private func _createIdentifier() -> String {
+        let formatterString = _identifierFomtter.string(from: Date())
+        let random = arc4random() % 10000
+        return formatterString + "\(random)"
     }
     
     // MARK: - Action
     
     @objc private func _metadataQueryDidFinishGathering(_ notification: Notification) {
-        let query = notification.object as! NSMetadataQuery
-//        query.disableUpdates()
-        query.stop()
+        guard let query = notification.object as? NSMetadataQuery else {
+            return
+        }
+        guard let condition = _completionHandlers[query]?.0, let completion = _completionHandlers[query]?.1 else {
+                return
+        }
+        _queryStop(by: query)
         _parseQueue.async {
             if query.resultCount <= 0 { return }
+            var results: [Directory] = []
             for i in 0..<query.resultCount {
                 guard let item = query.result(at: i) as? NSMetadataItem else  {
                     continue
@@ -84,19 +110,29 @@ class DocumentManager: NSObject {
                 guard let type = item.value(forAttribute: NSMetadataItemContentTypeKey) as? String else {
                     continue
                 }
-                if type != "public.folder" {
-                    continue
+                if let findTpye = condition.type {
+                    if type != findTpye {
+                        continue
+                    }
+                } else {
+                    if condition.ignoreTypes.contains(type) {
+                        continue
+                    }
                 }
                 guard let name = item.value(forAttribute: NSMetadataItemFSNameKey) as? String else {
                     continue
                 }
-//            if filterDocuments.contains(name) {
-//                continue
-//            }
+                if condition.ignoreFiles.contains(name) {
+                    continue
+                }
                 guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL else {
                     continue
                 }
-//            addData(name, url)
+                let directory = Directory(name: name, fileURL: url)
+                results.append(directory)
+            }
+            DispatchQueue.main.async {
+                completion(results)
             }
         }
     }

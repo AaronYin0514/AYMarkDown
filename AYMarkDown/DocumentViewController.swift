@@ -16,10 +16,10 @@ class DocumentViewController: NSViewController {
     ]
     
     var selectedURL: URL? {
-        if tableView.selectedRow < 0 || tableView.selectedRow >= urls.count {
+        if tableView.selectedRow < 0 || tableView.selectedRow >= dataSource.count {
             return nil
         }
-        return urls[tableView.selectedRow]
+        return dataSource[tableView.selectedRow].fileURL
     }
     
     var didSelectURL: ((_: URL) -> Void)?
@@ -30,8 +30,7 @@ class DocumentViewController: NSViewController {
         return scrollView.documentView as! NSTableView
     }
     
-    private var names: [String] = []
-    private var urls: [URL] = []
+    private var dataSource: [Directory] = []
     
     let query = NSMetadataQuery()
     
@@ -41,61 +40,23 @@ class DocumentViewController: NSViewController {
         tableView.delegate = self
         tableView.backgroundColor = .clear
         tableView.enclosingScrollView?.drawsBackground = false
-        NotificationCenter.default.addObserver(self, selector: #selector(finishedGetNewDocument(_:)), name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: query)
         loadData()
     }
     
     private func loadData() {
-        query.searchScopes = [
-            NSMetadataQueryUbiquitousDocumentsScope
-        ]
-//        let pred = NSPredicate(format: "%K == %@", NSMetadataItemFSNameKey, "kFILENAME")
-        query.start()
-    }
-    
-    private func addData(_ name: String, _ url: URL) {
-        names.append(name)
-        urls.append(url)
+        let condition = DocumentManager.Condition(scops: .ducument, type: "public.folder", ignoreFiles: [__resources_document_name])
+        DocumentManager.manager.asyncQuery(condition) { (results) in
+            self.dataSource = results
+            self.tableView.reloadData()
+        }
     }
     
     private func fixData(_ row: Int, _ name: String, _ url: URL) {
-        if row >= names.count {
+        if row >= dataSource.count {
             return
         }
-        names[row] = name
-        urls[row] = url
-    }
-    
-    @objc func finishedGetNewDocument(_ notification: Notification) {
-        print("current thread: ---- \(Thread.current)")
-        let query = notification.object as! NSMetadataQuery
-//        query.disableUpdates()
-        query.stop()
-        if query.resultCount <= 0 {
-            return
-        }
-        for i in 0..<query.resultCount {
-            guard let item = query.result(at: i) as? NSMetadataItem else  {
-                continue
-            }
-            guard let type = item.value(forAttribute: NSMetadataItemContentTypeKey) as? String else {
-                continue
-            }
-            if type != "public.folder" {
-                continue
-            }
-            guard let name = item.value(forAttribute: NSMetadataItemFSNameKey) as? String else {
-                continue
-            }
-            if filterDocuments.contains(name) {
-                continue
-            }
-            guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL else {
-                continue
-            }
-            addData(name, url)
-        }
-        tableView.reloadData()
+//        names[row] = name
+//        urls[row] = url
     }
     
     @IBAction func createDocumentAction(_ sender: Any) {
@@ -103,15 +64,15 @@ class DocumentViewController: NSViewController {
     }
     
     private func didEditTitle(row: Int, string: String) {
-        if string.count == 0 || row >= urls.count {
+        if string.count == 0 || row >= dataSource.count {
             return
         }
         do {
-            if let newURL = try renameDocument(url: urls[row], newName: string) {
-                fixData(row, string, newURL)
-                tableView.reloadData()
-                alert("名称修改成功")
-            }
+//            if let newURL = try renameDocument(url: urls[row], newName: string) {
+//                fixData(row, string, newURL)
+//                tableView.reloadData()
+//                alert("名称修改成功")
+//            }
         } catch {
             tableView.reloadData()
             alert("名称修改失败 - \(error.localizedDescription)")
@@ -123,23 +84,23 @@ class DocumentViewController: NSViewController {
             alert("请先开启iCloud功能")
             return
         }
-        let sysDocumentsURL = url.appendingPathComponent("Documents", isDirectory: true)
-        var index = 0
-        for s in names {
-            if s.hasPrefix("新建文件夹") {
-                index += 1
-            }
-        }
-        let name = index == 0 ? "新建文件夹" : "新建文件夹\(index)"
-        let newDucumentURL = sysDocumentsURL.appendingPathComponent(name)
-        do {
-            try FileManager.default.createDirectory(at: newDucumentURL, withIntermediateDirectories: true, attributes: nil)
-            addData(name, newDucumentURL)
-            tableView.reloadData()
-        } catch {
-            alert("文件夹创建失败 - \(error.localizedDescription)")
-            print(error)
-        }
+//        let sysDocumentsURL = url.appendingPathComponent("Documents", isDirectory: true)
+//        var index = 0
+//        for s in names {
+//            if s.hasPrefix("新建文件夹") {
+//                index += 1
+//            }
+//        }
+//        let name = index == 0 ? "新建文件夹" : "新建文件夹\(index)"
+//        let newDucumentURL = sysDocumentsURL.appendingPathComponent(name)
+//        do {
+//            try FileManager.default.createDirectory(at: newDucumentURL, withIntermediateDirectories: true, attributes: nil)
+//            addData(name, newDucumentURL)
+//            tableView.reloadData()
+//        } catch {
+//            alert("文件夹创建失败 - \(error.localizedDescription)")
+//            print(error)
+//        }
         
     }
     
@@ -150,18 +111,8 @@ class DocumentViewController: NSViewController {
         }
         let sysDocumentsURL = rootURL.appendingPathComponent("Documents", isDirectory: true)
         let newURL = sysDocumentsURL.appendingPathComponent(newName, isDirectory: true)
-        
         try FileManager.default.moveItem(at: url, to: newURL)
-        
         return newURL
-        
-//        try FileManager.default.createDirectory(at: newURL, withIntermediateDirectories: true, attributes: nil)
-//        let dirEnum = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil)
-//        while let content = dirEnum?.nextObject() as? URL {
-//            let newContentURL = newURL.appendingPathComponent(content.lastPathComponent)
-//            try FileManager.default.moveItem(at: content, to: newContentURL)
-//        }
-//        try FileManager.default.removeItem(at: url)
     }
     
     private func checkIClould() -> URL? {
@@ -181,7 +132,7 @@ class DocumentViewController: NSViewController {
 extension DocumentViewController: NSTableViewDataSource, NSTableViewDelegate {
     
     func numberOfRows(in tableView: NSTableView) -> Int {
-        return names.count
+        return dataSource.count
     }
     
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
@@ -193,7 +144,7 @@ extension DocumentViewController: NSTableViewDataSource, NSTableViewDelegate {
         if (view == nil) {
             view = DocumentTableCell(frame: .zero)
         }
-        view?.textField.stringValue = names[row]
+        view?.textField.stringValue = dataSource[row].name
         unowned let unownedView = view
         view?.textField.endEditClosure = { [unowned self] (string) in
             if let vw = unownedView {
@@ -213,8 +164,8 @@ extension DocumentViewController: NSTableViewDataSource, NSTableViewDelegate {
     }
     
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        if row < urls.count {
-            didSelectURL?(urls[row])
+        if row < dataSource.count {
+            didSelectURL?(dataSource[row].fileURL)
         }
         return true
     }

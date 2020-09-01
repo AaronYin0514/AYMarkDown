@@ -12,9 +12,7 @@ struct Directory {
     
     let name: String
     
-    var fileURL: URL?
-    
-    
+    var fileURL: URL
     
     
 }
