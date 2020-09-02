@@ -164,8 +164,11 @@ extension DocumentViewController: NSTableViewDataSource, NSTableViewDelegate {
     }
     
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
-        if row < dataSource.count {
-            didSelectURL?(dataSource[row].fileURL)
+        if row >= dataSource.count {
+            return false
+        }
+        if let url = dataSource[row].fileURL {
+            didSelectURL?(url)
         }
         return true
     }
