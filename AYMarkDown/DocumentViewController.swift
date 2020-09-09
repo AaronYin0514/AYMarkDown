@@ -11,9 +11,9 @@ import SnapKit
 
 class DocumentDownloadManager: NSObject {
     
-    private let _manager = DocumentManager()
+    private let _manager = DocumentManager<Directory>()
     
-    private let _condition = DocumentManager.Condition(scops: .ducument, type: "public.folder", ignoreFiles: [__resources_document_name])
+    private let _condition = Condition(type: "public.folder", ignoreFiles: [__resources_document_name])
     
     static let manager = DocumentDownloadManager()
     

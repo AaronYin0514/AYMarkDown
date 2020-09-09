@@ -8,35 +8,33 @@
 
 import Foundation
 
-class DocumentManager: NSObject {
+struct Scope: OptionSet {
     
-    struct Scope: OptionSet {
-        
-        let rawValue: Int
-        
-        public static let ducument = Scope(rawValue: 1)
-    }
+    let rawValue: Int
     
-    struct Condition {
-        
-        var scops = Scope.ducument
-        
-        var type: String?
-        
-        var ignoreTypes: [String] = []
-        
-        var ignoreFiles: [String] = []
-        
-    }
+    public static let ducument = Scope(rawValue: 1)
+}
+
+struct Condition {
     
-    deinit {
-        print("我销毁了")
-    }
+    var scops = Scope.ducument
     
-    private var _completionHandlers: [DocumentQuery] = []
+    var type: String?
     
-    func asyncQuery(_ condition: Condition, completion: @escaping ([Directory]) -> Void) {
-        let query = DocumentQuery(condition: condition)
+    var directoryURL: URL?
+    
+    var ignoreTypes: [String] = []
+    
+    var ignoreFiles: [String] = []
+    
+}
+
+class DocumentManager<T: Document>: NSObject {
+    
+    private var _completionHandlers: [DocumentQuery<T>] = []
+    
+    func asyncQuery(_ condition: Condition, completion: @escaping ([T]) -> Void) {
+        let query = DocumentQuery<T>(condition: condition)
         _completionHandlers.append(query)
         query.asyncQuery { [unowned self] (_query, result) in
             completion(result)
@@ -48,7 +46,7 @@ class DocumentManager: NSObject {
     
 }
 
-extension DocumentManager.Scope {
+extension Scope {
     
     var stringValue: String {
         switch self {
@@ -62,7 +60,7 @@ extension DocumentManager.Scope {
     var stringValues: [String] {
         var result: [String] = []
         if contains(.ducument) {
-            result.append(DocumentManager.Scope.ducument.stringValue)
+            result.append(Scope.ducument.stringValue)
         }
         return result
     }
@@ -71,11 +69,11 @@ extension DocumentManager.Scope {
 
 private let _document_parseQueue = DispatchQueue(label: "com.document.parse")
 
-class DocumentQuery {
+class DocumentQuery<T: Document> {
     
     var identifier: String?
     
-    let condition: DocumentManager.Condition
+    let condition: Condition
     
     private let query: NSMetadataQuery
     
@@ -85,15 +83,15 @@ class DocumentQuery {
         return queue
     }()
     
-    private var completionClosure: ((DocumentQuery, [Directory]) -> Void)?
+    private var completionClosure: ((DocumentQuery, [T]) -> Void)?
     
-    init(condition: DocumentManager.Condition) {
+    init(condition: Condition) {
         self.condition = condition
         self.query = NSMetadataQuery()
         self.query.searchScopes = condition.scops.stringValues
     }
     
-    func asyncQuery(completion: @escaping (DocumentQuery, [Directory]) -> Void) {
+    func asyncQuery(completion: @escaping (DocumentQuery, [T]) -> Void) {
         self.completionClosure = completion
         self.identifier = _start()
     }
@@ -132,7 +130,7 @@ class DocumentQuery {
         _stop()
         _document_parseQueue.async {
             if query.resultCount <= 0 { return }
-            var results: [Directory] = []
+            var results: [T] = []
             for i in 0..<query.resultCount {
                 guard let item = query.result(at: i) as? NSMetadataItem else  {
                     continue
@@ -158,8 +156,12 @@ class DocumentQuery {
                 guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL else {
                     continue
                 }
-                let directory = Directory(name: name, fileURL: url)
-                results.append(directory)
+                let fileType = item.value(forAttribute: NSMetadataItemContentTypeKey) as? String
+                let fileCreationDate = item.value(forAttribute: NSMetadataItemFSCreationDateKey) as? Date
+                let fileModificationDate = item.value(forAttribute: NSMetadataItemFSContentChangeDateKey) as? Date
+                if let directory = T.create(name: name, fileType: fileType, fileURL: url, fileCreationDate: fileCreationDate, fileModificationDate: fileModificationDate) as? T {
+                    results.append(directory)
+                }
             }
             DispatchQueue.main.async {
                 completion(self, results)
