@@ -108,6 +108,11 @@ class NotesViewController: NSViewController {
         }
         dataSource.removeAll()
         currentURL = url
+        NotesDownloadManager.manager.async(url: url) { (documents) in
+            self.dataSource = documents.flatMap({ (<#MarkDownDocument#>) -> Sequence in
+                <#code#>
+            })
+        }
         query.searchScopes = [
             NSMetadataQueryUbiquitousDocumentsScope
         ]
