@@ -156,6 +156,12 @@ class DocumentQuery<T: Document> {
                 guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL else {
                     continue
                 }
+                if let currentDirectoryURL = self.condition.directoryURL {
+                    let parentURL = url.deletingLastPathComponent()
+                    if parentURL != currentDirectoryURL {
+                        continue
+                    }
+                }
                 let fileType = item.value(forAttribute: NSMetadataItemContentTypeKey) as? String
                 let fileCreationDate = item.value(forAttribute: NSMetadataItemFSCreationDateKey) as? Date
                 let fileModificationDate = item.value(forAttribute: NSMetadataItemFSContentChangeDateKey) as? Date

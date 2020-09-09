@@ -44,7 +44,6 @@ class NotesViewController: NSViewController {
         super.viewDidLoad()
         tableView.dataSource = self
         tableView.delegate = self
-        NotificationCenter.default.addObserver(self, selector: #selector(finishedGetNewDocument(_:)), name: NSNotification.Name.NSMetadataQueryDidFinishGathering, object: query)
     }
     
     func loadData(_ url: URL) {
