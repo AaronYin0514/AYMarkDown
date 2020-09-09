@@ -9,6 +9,20 @@
 import Cocoa
 import SnapKit
 
+class DocumentDownloadManager: NSObject {
+    
+    private let _manager = DocumentManager()
+    
+    private let _condition = DocumentManager.Condition(scops: .ducument, type: "public.folder", ignoreFiles: [__resources_document_name])
+    
+    static let manager = DocumentDownloadManager()
+    
+    func async(completion: @escaping ([Directory]) -> Void) {
+        _manager.asyncQuery(_condition, completion: completion)
+    }
+    
+}
+
 class DocumentViewController: NSViewController {
     
     let filterDocuments: [String] = [
@@ -34,6 +48,7 @@ class DocumentViewController: NSViewController {
     
     let query = NSMetadataQuery()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -44,8 +59,7 @@ class DocumentViewController: NSViewController {
     }
     
     private func loadData() {
-        let condition = DocumentManager.Condition(scops: .ducument, type: "public.folder", ignoreFiles: [__resources_document_name])
-        DocumentManager.manager.asyncQuery(condition) { (results) in
+        DocumentDownloadManager.manager.async { (results) in
             self.dataSource = results
             self.tableView.reloadData()
         }
