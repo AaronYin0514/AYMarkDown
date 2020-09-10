@@ -138,6 +138,7 @@ class DocumentQuery<T: Document> {
                 guard let type = item.value(forAttribute: NSMetadataItemContentTypeKey) as? String else {
                     continue
                 }
+                print("文件类型：\(type)")
                 if let findTpye = self.condition.type {
                     if type != findTpye {
                         continue

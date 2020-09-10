@@ -10,13 +10,12 @@ import Foundation
 
 enum AYError: Error {
     case markdownSaveDataNull
-    
     case iCloudNotOpen
 }
 
-extension AYError {
+extension AYError: LocalizedError {
     
-    var localizedDescription: String {
+    var errorDescription: String? {
         switch self {
         case .markdownSaveDataNull:
             return "MarkDown内容为空"

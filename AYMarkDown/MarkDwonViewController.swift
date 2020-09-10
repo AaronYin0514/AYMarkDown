@@ -174,20 +174,12 @@ extension MarkDwonViewController {
         let docURL = url.appendingPathComponent("Documents/\(__resources_document_name)", isDirectory: true)
         let fileName = "tmp.html"
         let fileURL = docURL.appendingPathComponent(fileName)
-        do {
-            let document = try AYDocument(type: "html")
-            document.setText(markdown)
-            document.save(to: fileURL, ofType: "html", for: .saveOperation) { [unowned self] (error) in
-                if error != nil {
-                    print("iCloud创建失败 - \(error!.localizedDescription)")
-                } else {
-                    DispatchQueue.main.async {
-                        self.webView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
-                    }
-                }
+        HTMLDocument.save(html:markdown, fileURL: fileURL) { (document, error) in
+            if error != nil {
+                print("iCloud创建失败 - \(error!.localizedDescription)")
+            } else {
+                self.webView.loadFileURL(fileURL, allowingReadAccessTo: fileURL)
             }
-        } catch {
-            print("创建失败 - \(error.localizedDescription)")
         }
     }
     

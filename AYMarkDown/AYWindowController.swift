@@ -69,20 +69,12 @@ class AYWindowController: NSWindowController {
         dateName = dateName.replacingOccurrences(of: ".", with: "_")
         let fileName = "\(dateName).\(suffix)"
         let fileURL = docURL.appendingPathComponent(fileName)
-        do {
-            let document = try AYDocument(type: "img")
-            try document.setImage(imageURL)
-            document.save(to: fileURL, ofType: "img", for: .saveOperation) { [unowned self] (error) in
-                if error != nil {
-                    self.alert("图片iCloud保存失败 - \(error!.localizedDescription)")
-                } else {
-                    self.viewController.markdownViewController.insetImage(with: fileURL)
-//                    self.alert("保存成功")
-                }
+        ImageDocument.save(fileURL: fileURL, fileType: suffix) { (document, error) in
+            if error != nil {
+                self.alert("图片iCloud保存失败 - \(error!.localizedDescription)")
+            } else {
+                self.viewController.markdownViewController.insetImage(with: fileURL)
             }
-            print("图片获取成功")
-        } catch {
-            print("获取图片失败 - \(error.localizedDescription)")
         }
     }
     
