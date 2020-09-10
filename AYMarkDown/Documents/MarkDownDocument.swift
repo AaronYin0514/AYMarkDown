@@ -36,6 +36,7 @@ class MarkDownDocument: NSDocument, Document {
         let document = MarkDownDocument.create(name: name, fileType: type, fileURL: fileURL, fileCreationDate: date, fileModificationDate: date) as? MarkDownDocument
         document?.text = text
         document?.richText = MMMarkdown.test(text)
+        document?.originData = text.data(using: .utf8)
         document?.save(to: fileURL, ofType: type, for: .saveAsOperation) { (error) in
             DispatchQueue.main.async {
                 if error != nil {
@@ -54,6 +55,7 @@ class MarkDownDocument: NSDocument, Document {
         let document = MarkDownDocument.create(name: name, fileType: type, fileURL: fileURL, fileCreationDate: date, fileModificationDate: date) as? MarkDownDocument
         document?.text = text
         document?.richText = MMMarkdown.test(text)
+        document?.originData = text.data(using: .utf8)
         document?.save(to: fileURL, ofType: type, for: .saveOperation) { (error) in
             DispatchQueue.main.async {
                 if error != nil {
