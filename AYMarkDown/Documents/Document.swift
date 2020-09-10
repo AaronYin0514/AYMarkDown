@@ -34,25 +34,3 @@ protocol Document {
                        fileModificationDate date2: Date?) -> Any?
     
 }
-
-struct Directory: Document {
-    
-    var name: String
-    
-    var fileType: String?
-    
-    var fileURL: URL?
-    
-    var fileModificationDate: Date?
-    
-    var fileCreationDate: Date?
-    
-    static func create(name: String,
-                       fileType: String?,
-                       fileURL: URL?,
-                       fileCreationDate date1: Date?,
-                       fileModificationDate date2: Date?) -> Any? {
-        Directory(name: name, fileType: fileType, fileURL: fileURL, fileModificationDate: date2, fileCreationDate: date1)
-    }
-    
-}

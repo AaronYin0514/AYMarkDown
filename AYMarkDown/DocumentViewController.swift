@@ -25,10 +25,6 @@ class DocumentDownloadManager: NSObject {
 
 class DocumentViewController: NSViewController {
     
-    let filterDocuments: [String] = [
-        __resources_document_name
-    ]
-    
     var selectedURL: URL? {
         if tableView.selectedRow < 0 || tableView.selectedRow >= dataSource.count {
             return nil
@@ -46,9 +42,6 @@ class DocumentViewController: NSViewController {
     
     private var dataSource: [Directory] = []
     
-    let query = NSMetadataQuery()
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -65,14 +58,6 @@ class DocumentViewController: NSViewController {
         }
     }
     
-    private func fixData(_ row: Int, _ name: String, _ url: URL) {
-        if row >= dataSource.count {
-            return
-        }
-//        names[row] = name
-//        urls[row] = url
-    }
-    
     @IBAction func createDocumentAction(_ sender: Any) {
         createDocument()
     }
@@ -81,12 +66,18 @@ class DocumentViewController: NSViewController {
         if string.count == 0 || row >= dataSource.count {
             return
         }
+        var directory = dataSource[row]
+        guard let url = directory.fileURL else {
+            return
+        }
         do {
-//            if let newURL = try renameDocument(url: urls[row], newName: string) {
-//                fixData(row, string, newURL)
-//                tableView.reloadData()
-//                alert("名称修改成功")
-//            }
+            if let newURL = try renameDocument(url: url, newName: string) {
+                directory.name = string
+                directory.fileURL = newURL
+                dataSource[row] = directory
+                tableView.reloadData()
+                alert("名称修改成功")
+            }
         } catch {
             tableView.reloadData()
             alert("名称修改失败 - \(error.localizedDescription)")
@@ -98,23 +89,24 @@ class DocumentViewController: NSViewController {
             alert("请先开启iCloud功能")
             return
         }
-//        let sysDocumentsURL = url.appendingPathComponent("Documents", isDirectory: true)
-//        var index = 0
-//        for s in names {
-//            if s.hasPrefix("新建文件夹") {
-//                index += 1
-//            }
-//        }
-//        let name = index == 0 ? "新建文件夹" : "新建文件夹\(index)"
-//        let newDucumentURL = sysDocumentsURL.appendingPathComponent(name)
-//        do {
-//            try FileManager.default.createDirectory(at: newDucumentURL, withIntermediateDirectories: true, attributes: nil)
-//            addData(name, newDucumentURL)
-//            tableView.reloadData()
-//        } catch {
-//            alert("文件夹创建失败 - \(error.localizedDescription)")
-//            print(error)
-//        }
+        let sysDocumentsURL = url.appendingPathComponent("Documents", isDirectory: true)
+        var index = 0
+        for d in dataSource {
+            if d.name.hasPrefix("新建文件夹") {
+                index += 1
+            }
+        }
+        let name = index == 0 ? "新建文件夹" : "新建文件夹\(index)"
+        let newDucumentURL = sysDocumentsURL.appendingPathComponent(name)
+        do {
+            try FileManager.default.createDirectory(at: newDucumentURL, withIntermediateDirectories: true, attributes: nil)
+            let directory = Directory(name: name, fileURL: newDucumentURL)
+            dataSource.append(directory)
+            tableView.reloadData()
+        } catch {
+            alert("文件夹创建失败 - \(error.localizedDescription)")
+            print(error)
+        }
         
     }
     
