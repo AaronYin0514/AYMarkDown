@@ -30,38 +30,24 @@ class AYWindowController: NSWindowController {
         dateName = dateName.replacingOccurrences(of: ".", with: "_")
         let fileName = "\(dateName).md"
         let fileURL = docURL.appendingPathComponent(fileName)
-        do {
-            let document = try AYDocument(type: "md")
-            document.setText(text)
-            document.save(to: fileURL, ofType: "md", for: .saveAsOperation) { [unowned self] (error) in
-                if error != nil {
-                    self.alert("iCloud创建失败 - \(error!.localizedDescription)")
-                } else {
-                    self.viewController.notesViewController.insert(document)
-                    self.viewController.notesViewController.select(row: 0)
-                    //self.alert("创建成功")
-                }
+        MarkDownDocument.create(text: text, name: fileName, fileURL: fileURL) { (document, error) in
+            if let document = document {
+                self.viewController.notesViewController.insert(document)
+                self.viewController.notesViewController.select(row: 0)
+            } else {
+                self.alert("iCloud创建失败 - \(error?.localizedDescription ?? "发生异常")")
             }
-        } catch {
-            alert("创建失败 - \(error.localizedDescription)")
         }
     }
     
     private func saveNote(_ url: URL, _ text: String) {
-        do {
-            let document = try AYDocument(type: "md")
-            document.setText(text)
-            document.save(to: url, ofType: "md", for: .saveOperation) { [unowned self] (error) in
-                if error != nil {
-                    self.alert("iCloud保存失败 - \(error!.localizedDescription)")
-                } else {
-                    self.viewController.notesViewController.replace(document, by: url)
-                    self.viewController.notesViewController.select(url: url)
-                    //self.alert("保存成功")
-                }
+        MarkDownDocument.save(text: text, fileURL: url) { (document, error) in
+            if let document = document {
+                self.viewController.notesViewController.replace(document, by: url)
+                self.viewController.notesViewController.select(url: url)
+            } else {
+                self.alert("iCloud保存失败 - \(error?.localizedDescription ?? "发生异常")")
             }
-        } catch {
-            alert("保存失败 - \(error.localizedDescription)")
         }
     }
     

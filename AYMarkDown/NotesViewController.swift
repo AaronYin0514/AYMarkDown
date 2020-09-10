@@ -36,7 +36,7 @@ class NotesViewController: NSViewController {
         return scrollView.documentView as! NSTableView
     }
     
-    private var dataSource: [AYDocument] = []
+    private var dataSource: [MarkDownDocument] = []
     
     let query = NSMetadataQuery()
     
@@ -54,15 +54,15 @@ class NotesViewController: NSViewController {
         _loadData(url, forcedRefresh: true)
     }
     
-    func insert(_ document: AYDocument) {
+    func insert(_ document: MarkDownDocument) {
         dataSource.insert(document, at: 0)
         tableView.reloadData()
     }
     
-    func replace(_ document: AYDocument, by url: URL) {
+    func replace(_ document: MarkDownDocument, by url: URL) {
         var index: Int = NSNotFound
         for (idx, d) in dataSource.enumerated() {
-            if d.remoteFileURL == url {
+            if d.fileURL == url {
                 index = idx
                 break
             }
@@ -84,15 +84,15 @@ class NotesViewController: NSViewController {
         let indexs = IndexSet(arrayLiteral: row)
         tableView.selectRowIndexes(indexs, byExtendingSelection: false)
         let d = dataSource[row]
-        if let text = d.text, let url = d.remoteFileURL {
-            didSelectDocument?(text, url)
+        if let url = d.fileURL {
+            didSelectDocument?(d.text, url)
         }
     }
     
     func select(url: URL) {
         var index: Int = NSNotFound
         for (idx, d) in dataSource.enumerated() {
-            if d.remoteFileURL == url {
+            if d.fileURL == url {
                 index = idx
                 break
             }
@@ -109,54 +109,9 @@ class NotesViewController: NSViewController {
         dataSource.removeAll()
         currentURL = url
         NotesDownloadManager.manager.async(url: url) { (documents) in
-            self.dataSource = documents.flatMap({ (<#MarkDownDocument#>) -> Sequence in
-                <#code#>
-            })
+            self.dataSource = documents
+            self.tableView.reloadData()
         }
-        query.searchScopes = [
-            NSMetadataQueryUbiquitousDocumentsScope
-        ]
-        query.start()
-    }
-    
-    @objc func finishedGetNewDocument(_ notification: Notification) {
-        guard let URL = currentURL else {
-            return
-        }
-        let query = notification.object as! NSMetadataQuery
-//        query.disableUpdates()
-        query.stop()
-        if query.resultCount <= 0 {
-            return
-        }
-        for i in 0..<query.resultCount {
-            guard let item = query.result(at: i) as? NSMetadataItem else  {
-                continue
-            }
-            guard let type = item.value(forAttribute: NSMetadataItemContentTypeKey) as? String else {
-                continue
-            }
-//            print("type - \(type)")
-            if type != "net.daringfireball.markdown" {
-                continue
-            }
-            guard let url = item.value(forAttribute: NSMetadataItemURLKey) as? URL else {
-                continue
-            }
-//            print("url - \(url)")
-            let parentURL = url.deletingLastPathComponent()
-            if parentURL != URL {
-                continue
-            }
-            do {
-                let document = try AYDocument(type: "md")
-                try document.read(from: url, ofType: "md")
-                dataSource.append(document)
-            } catch {
-                alert("读取失败 - \(error.localizedDescription)")
-            }
-        }
-        tableView.reloadData()
     }
     
     private func alert(_ message: String) {
@@ -184,11 +139,7 @@ extension NotesViewController: NSTableViewDataSource, NSTableViewDelegate {
             view = NoteTableCell(frame: .zero)
         }
         if row < dataSource.count {
-            if dataSource[row].richText != nil {
-                view?.textField.attributedStringValue = dataSource[row].richText!
-            } else {
-                view?.textField.stringValue = dataSource[row].text ?? ""
-            }
+            view?.textField.attributedStringValue = dataSource[row].richText
         }
         return view
     }
@@ -204,8 +155,8 @@ extension NotesViewController: NSTableViewDataSource, NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         if row < dataSource.count {
             let d = dataSource[row]
-            if let text = d.text, let url = d.remoteFileURL {
-                didSelectDocument?(text, url)
+            if let url = d.fileURL {
+                didSelectDocument?(d.text, url)
             }
         }
         return true
