@@ -7,21 +7,6 @@
 //
 
 import Cocoa
-import SnapKit
-
-class DocumentDownloadManager: NSObject {
-    
-    private let _manager = DocumentManager<Directory>()
-    
-    private let _condition = Condition(type: "public.folder", ignoreFiles: [__resources_document_name])
-    
-    static let manager = DocumentDownloadManager()
-    
-    func async(completion: @escaping ([Directory]) -> Void) {
-        _manager.asyncQuery(_condition, completion: completion)
-    }
-    
-}
 
 class DocumentViewController: NSViewController {
     
@@ -41,6 +26,8 @@ class DocumentViewController: NSViewController {
     }
     
     private var dataSource: [Directory] = []
+    
+    private var newDicrectoryIndex: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,8 +88,15 @@ class DocumentViewController: NSViewController {
         do {
             try FileManager.default.createDirectory(at: newDucumentURL, withIntermediateDirectories: true, attributes: nil)
             let directory = Directory(name: name, fileURL: newDucumentURL)
-            dataSource.append(directory)
+            dataSource.insert(directory, at: 0)
+            newDicrectoryIndex = 0
             tableView.reloadData()
+            let time = DispatchTime.now().advanced(by: .milliseconds(300))
+            DispatchQueue.main.asyncAfter(deadline: time) {
+                if let cell = self.tableView.view(atColumn: 0, row: 0, makeIfNecessary: false) as? DocumentTableCell {
+                    
+                }
+            }
         } catch {
             alert("文件夹创建失败 - \(error.localizedDescription)")
             print(error)
@@ -177,65 +171,6 @@ extension DocumentViewController: NSTableViewDataSource, NSTableViewDelegate {
             didSelectURL?(url)
         }
         return true
-    }
-    
-}
-
-class DocumentTableCell: NSView {
-    
-    static let cellID = NSUserInterfaceItemIdentifier(rawValue: "DocumentTableCellID")
-    
-    let textField: DocumentTextField = {
-        let textField = DocumentTextField(frame: .zero)
-        return textField
-    }()
-    
-    override init(frame frameRect: NSRect) {
-        super.init(frame: frameRect)
-        addSubview(textField)
-        
-        textField.snp.makeConstraints { (maker) in
-            maker.edges.equalTo(NSEdgeInsetsMake(4, 16, 4, 16))
-        }
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-}
-
-class DocumentTextField: NSTextField {
-    
-    var endEditClosure: ((_: String) -> Void)?
-    
-    override init(frame frameRect: NSRect) {
-            super.init(frame: frameRect)
-            commonInit()
-        }
-        
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        commonInit()
-    }
-    
-    private func commonInit() {
-        isBordered = false
-        bezelStyle = .squareBezel
-        isEditable = true
-//        isSelectable = false
-        backgroundColor = NSColor.clear
-        font = NSFont(name: "PingFang-SC-Semibold", size: 15)
-    }
-    
-    override func selectText(_ sender: Any?) {
-        super.selectText(sender)
-        backgroundColor = NSColor.white
-    }
-    
-    override func textDidEndEditing(_ notification: Notification) {
-        backgroundColor = NSColor.clear
-        endEditClosure?(stringValue)
     }
     
 }

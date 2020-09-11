@@ -30,6 +30,8 @@
 		93388C0824D95E6A0093FAB3 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93388C0724D95E6A0093FAB3 /* CloudKit.framework */; };
 		93706029250A326000273075 /* HTMLDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93706028250A326000273075 /* HTMLDocument.swift */; };
 		9370602B250A3FEF00273075 /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9370602A250A3FEF00273075 /* Directory.swift */; };
+		93706031250B022100273075 /* DocumentTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93706030250B022100273075 /* DocumentTableCell.swift */; };
+		93706034250B027600273075 /* DocumentDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93706033250B027600273075 /* DocumentDownloadManager.swift */; };
 		93CA0E1624DBBF3C0013BF9F /* AYWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CA0E1524DBBF3C0013BF9F /* AYWindowController.swift */; };
 		93CA0E1824DBFC160013BF9F /* AYError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CA0E1724DBFC160013BF9F /* AYError.swift */; };
 		93E013F2250A272D00481D2F /* MarkDownDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E013F1250A272D00481D2F /* MarkDownDocument.swift */; };
@@ -75,6 +77,8 @@
 		93388C0724D95E6A0093FAB3 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		93706028250A326000273075 /* HTMLDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLDocument.swift; sourceTree = "<group>"; };
 		9370602A250A3FEF00273075 /* Directory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
+		93706030250B022100273075 /* DocumentTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTableCell.swift; sourceTree = "<group>"; };
+		93706033250B027600273075 /* DocumentDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentDownloadManager.swift; sourceTree = "<group>"; };
 		93CA0E1524DBBF3C0013BF9F /* AYWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYWindowController.swift; sourceTree = "<group>"; };
 		93CA0E1724DBFC160013BF9F /* AYError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYError.swift; sourceTree = "<group>"; };
 		93E013F1250A272D00481D2F /* MarkDownDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkDownDocument.swift; sourceTree = "<group>"; };
@@ -126,13 +130,13 @@
 		9309E50D24D824CF005EF8C8 /* AYMarkDown */ = {
 			isa = PBXGroup;
 			children = (
+				9370602C250B01E900273075 /* Modules */,
 				93EA19B124FC7BD7009DD7F7 /* Documents */,
 				93CA0E1B24E0CA930013BF9F /* Utils */,
 				9309E53E24D8EB02005EF8C8 /* Resources */,
 				9309E51E24D8255A005EF8C8 /* Markdown */,
 				9309E50E24D824CF005EF8C8 /* AppDelegate.swift */,
 				93CA0E1524DBBF3C0013BF9F /* AYWindowController.swift */,
-				93388BFA24D9470F0093FAB3 /* DocumentViewController.swift */,
 				93388C0224D951420093FAB3 /* NotesViewController.swift */,
 				93388BFE24D94F7F0093FAB3 /* MarkDwonViewController.swift */,
 				9309E51024D824CF005EF8C8 /* ViewController.swift */,
@@ -186,6 +190,48 @@
 				003F533E33C513C03C9D8BA2 /* Pods_AYMarkDown.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9370602C250B01E900273075 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				9370602D250B01F500273075 /* Directories */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		9370602D250B01F500273075 /* Directories */ = {
+			isa = PBXGroup;
+			children = (
+				93706032250B024D00273075 /* Presenters */,
+				9370602F250B021100273075 /* Views */,
+				9370602E250B020600273075 /* Controllers */,
+			);
+			path = Directories;
+			sourceTree = "<group>";
+		};
+		9370602E250B020600273075 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				93388BFA24D9470F0093FAB3 /* DocumentViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		9370602F250B021100273075 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				93706030250B022100273075 /* DocumentTableCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		93706032250B024D00273075 /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				93706033250B027600273075 /* DocumentDownloadManager.swift */,
+			);
+			path = Presenters;
 			sourceTree = "<group>";
 		};
 		93CA0E1B24E0CA930013BF9F /* Utils */ = {
@@ -327,6 +373,7 @@
 			files = (
 				9309E53124D8255A005EF8C8 /* MMParser.m in Sources */,
 				9309E53724D8255A005EF8C8 /* MMGenerator.m in Sources */,
+				93706034250B027600273075 /* DocumentDownloadManager.swift in Sources */,
 				93EA19B324FC7BF2009DD7F7 /* DocumentManager.swift in Sources */,
 				93E013F2250A272D00481D2F /* MarkDownDocument.swift in Sources */,
 				93388C0024D94F7F0093FAB3 /* MarkDwonViewController.swift in Sources */,
@@ -347,6 +394,7 @@
 				9370602B250A3FEF00273075 /* Directory.swift in Sources */,
 				9309E50F24D824CF005EF8C8 /* AppDelegate.swift in Sources */,
 				9309E53424D8255A005EF8C8 /* MMScanner.m in Sources */,
+				93706031250B022100273075 /* DocumentTableCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
