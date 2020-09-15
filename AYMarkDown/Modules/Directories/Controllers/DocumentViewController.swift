@@ -27,8 +27,6 @@ class DocumentViewController: NSViewController {
     
     private var dataSource: [Directory] = []
     
-    private var newDicrectoryIndex: Int?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.dataSource = self
@@ -63,7 +61,6 @@ class DocumentViewController: NSViewController {
                 directory.fileURL = newURL
                 dataSource[row] = directory
                 tableView.reloadData()
-                alert("名称修改成功")
             }
         } catch {
             tableView.reloadData()
@@ -77,31 +74,55 @@ class DocumentViewController: NSViewController {
             return
         }
         let sysDocumentsURL = url.appendingPathComponent("Documents", isDirectory: true)
-        var index = 0
-        for d in dataSource {
-            if d.name.hasPrefix("新建文件夹") {
-                index += 1
-            }
-        }
-        let name = index == 0 ? "新建文件夹" : "新建文件夹\(index)"
+        let name = newDirectoryPlaceName(from: dataSource)
         let newDucumentURL = sysDocumentsURL.appendingPathComponent(name)
         do {
             try FileManager.default.createDirectory(at: newDucumentURL, withIntermediateDirectories: true, attributes: nil)
             let directory = Directory(name: name, fileURL: newDucumentURL)
             dataSource.insert(directory, at: 0)
-            newDicrectoryIndex = 0
             tableView.reloadData()
             let time = DispatchTime.now().advanced(by: .milliseconds(300))
             DispatchQueue.main.asyncAfter(deadline: time) {
                 if let cell = self.tableView.view(atColumn: 0, row: 0, makeIfNecessary: false) as? DocumentTableCell {
-                    
+                    cell.textField.becomeFirstResponder()
                 }
             }
         } catch {
             alert("文件夹创建失败 - \(error.localizedDescription)")
-            print(error)
         }
-        
+    }
+    
+    private func newDirectoryPlaceName(from dataSource: [Directory]) -> String {
+        func isDirectoryPlaceNameFotmat(_ name: String) -> Bool {
+            let regex = "新建文件夹\\d*"
+            let predicate = NSPredicate(format: "SELF MATCHES %@", regex)
+            return predicate.evaluate(with: name)
+        }
+        func indexFromDirectoryPlaceName(_ name: String) -> Int? {
+            if name == "新建文件夹" {
+                return 0
+            }
+            if !isDirectoryPlaceNameFotmat(name) {
+                return nil
+            }
+            do {
+                let regex = try NSRegularExpression(pattern: "\\d+", options: .caseInsensitive)
+                if let result = regex.firstMatch(in: name, options: .reportCompletion, range: NSRange(location: 0, length: name.count)) {
+                    return Int((name as NSString).substring(with: result.range))
+                } else {
+                    return nil
+                }
+            } catch {
+                return nil
+            }
+        }
+        var index = 0
+        for d in dataSource {
+            if let newIndex = indexFromDirectoryPlaceName(d.name), newIndex >= index {
+                index = newIndex + 1
+            }
+        }
+        return index <= 0 ? "新建文件夹" : "新建文件夹\(index)"
     }
     
     private func renameDocument(url: URL, newName: String) throws -> URL? {
