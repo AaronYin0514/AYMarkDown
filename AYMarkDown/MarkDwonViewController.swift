@@ -196,7 +196,7 @@ extension MarkDwonViewController {
     
     func insetImageLink() {
         textView.string = textView.string + "![]()"
-        
+        textViewChangeSelectRange(with: 1)
     }
     
     func insertH1() {
@@ -225,14 +225,17 @@ extension MarkDwonViewController {
     
     func insertLink() {
         textView.string = textView.string + "[]()"
+        textViewChangeSelectRange(with: 3)
     }
     
     func insertStrong() {
         textView.string = textView.string + "****"
+        textViewChangeSelectRange(with: 2)
     }
     
     func insertEmphasize() {
         textView.string = textView.string + "**"
+        textViewChangeSelectRange(with: 1)
     }
     
     func insertClockquote() {
@@ -241,6 +244,7 @@ extension MarkDwonViewController {
     
     func insertCode() {
         textView.string = textView.string + "```\n\n```"
+        textViewChangeSelectRange(with: 4)
     }
     
     func insertTable() {
@@ -258,6 +262,10 @@ extension MarkDwonViewController {
     
     func insertOrderedList() {
         textView.string = textView.string + "1. "
+    }
+    
+    private func textViewChangeSelectRange(with index:Int) {
+        textView.setSelectedRange(NSRange(location: textView.string.count - index, length: 0))
     }
     
 }
