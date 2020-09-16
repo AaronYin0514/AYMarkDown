@@ -8,18 +8,6 @@
 
 import Cocoa
 
-class NotesDownloadManager: NSObject {
-
-    private let _manager = DocumentManager<MarkDownDocument>()
-
-    static let manager = NotesDownloadManager()
-
-    func async(url: URL, completion: @escaping ([MarkDownDocument]) -> Void) {
-        let _condition = Condition(type: "net.daringfireball.markdown", directoryURL: url)
-        _manager.asyncQuery(_condition, completion: completion)
-    }
-}
-
 class NotesViewController: NSViewController {
 
     var currentURL: URL?
@@ -111,6 +99,11 @@ class NotesViewController: NSViewController {
         NotesDownloadManager.manager.async(url: url) { (documents) in
             self.dataSource = documents
             self.tableView.reloadData()
+            self.select(row: 0)
+//            let time = DispatchTime.now().advanced(by: .milliseconds(250))
+//            DispatchQueue.main.asyncAfter(deadline: time) {
+//                self.select(row: 0)
+//            }
         }
     }
     
@@ -141,7 +134,16 @@ extension NotesViewController: NSTableViewDataSource, NSTableViewDelegate {
         if row < dataSource.count {
             view?.textField.attributedStringValue = dataSource[row].richText
         }
+        if row == selectedRow {
+            view?.selectedBackground.layer?.backgroundColor = NSColor.red.cgColor
+        } else {
+            view?.selectedBackground.layer?.backgroundColor = NSColor.lightGray.cgColor
+        }
         return view
+    }
+    
+    func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {
+        return NoteTableRowView()
     }
     
     func tableView(_ tableView: NSTableView, didAdd rowView: NSTableRowView, forRow row: Int) {
@@ -157,51 +159,10 @@ extension NotesViewController: NSTableViewDataSource, NSTableViewDelegate {
             let d = dataSource[row]
             if let url = d.fileURL {
                 didSelectDocument?(d.text, url)
+                tableView.reloadData()
             }
         }
         return true
-    }
-    
-}
-
-class NoteTableCell: NSView {
-    
-    static let cellID = NSUserInterfaceItemIdentifier(rawValue: "NoteTableCellID")
-    
-    let textFieldBackground: NSView = {
-        let view = NSView(frame: .zero)
-        view.wantsLayer = true
-        view.layer?.backgroundColor = NSColor.white.cgColor
-        view.layer?.cornerRadius = 6
-        view.layer?.borderColor = NSColor.lightGray.cgColor
-        view.layer?.borderWidth = 0.5
-        return view
-    }()
-    
-    let textField: NSTextField = {
-        let textField = NSTextField(wrappingLabelWithString: "")
-        textField.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
-        textField.isBordered = false
-        textField.isEditable = false
-        textField.isSelectable = false
-        textField.font = NSFont(name: "PingFang-SC-Semibold", size: 14)
-        return textField
-    }()
-    
-    override init(frame frameRect: NSRect) {
-        super.init(frame: frameRect)
-        addSubview(textFieldBackground)
-        textFieldBackground.addSubview(textField)
-        textFieldBackground.snp.makeConstraints { (maker) in
-            maker.edges.equalTo(NSEdgeInsetsMake(8, 8, 8, 8))
-        }
-        textField.snp.makeConstraints { (maker) in
-            maker.edges.equalTo(NSEdgeInsetsMake(8, 8, 8, 8))
-        }
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
     }
     
 }

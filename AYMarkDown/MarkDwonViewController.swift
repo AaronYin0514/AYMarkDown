@@ -71,7 +71,6 @@ extension MarkDwonViewController: NSTextViewDelegate {
             let range = (textView.string as NSString).range(of: "\n", options: .backwards)
             if range.location != NSNotFound {
                 let sss = (textView.string as NSString).substring(from: range.location + 1)
-                print("-----------+++++++++ \(sss)")
                 if sss.hasPrefix("* ") {
                     if sss != "* " {
                         textView.string = string + "* "

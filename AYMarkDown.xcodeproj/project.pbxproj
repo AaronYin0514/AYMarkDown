@@ -32,6 +32,9 @@
 		9370602B250A3FEF00273075 /* Directory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9370602A250A3FEF00273075 /* Directory.swift */; };
 		93706031250B022100273075 /* DocumentTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93706030250B022100273075 /* DocumentTableCell.swift */; };
 		93706034250B027600273075 /* DocumentDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93706033250B027600273075 /* DocumentDownloadManager.swift */; };
+		937060B42512194600273075 /* NoteTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937060B32512194600273075 /* NoteTableCell.swift */; };
+		937060B72512199D00273075 /* NotesDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937060B62512199D00273075 /* NotesDownloadManager.swift */; };
+		937060B925121C4C00273075 /* NoteTableRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 937060B825121C4C00273075 /* NoteTableRowView.swift */; };
 		93CA0E1624DBBF3C0013BF9F /* AYWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CA0E1524DBBF3C0013BF9F /* AYWindowController.swift */; };
 		93CA0E1824DBFC160013BF9F /* AYError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93CA0E1724DBFC160013BF9F /* AYError.swift */; };
 		93E013F2250A272D00481D2F /* MarkDownDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E013F1250A272D00481D2F /* MarkDownDocument.swift */; };
@@ -79,6 +82,9 @@
 		9370602A250A3FEF00273075 /* Directory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directory.swift; sourceTree = "<group>"; };
 		93706030250B022100273075 /* DocumentTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentTableCell.swift; sourceTree = "<group>"; };
 		93706033250B027600273075 /* DocumentDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentDownloadManager.swift; sourceTree = "<group>"; };
+		937060B32512194600273075 /* NoteTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTableCell.swift; sourceTree = "<group>"; };
+		937060B62512199D00273075 /* NotesDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesDownloadManager.swift; sourceTree = "<group>"; };
+		937060B825121C4C00273075 /* NoteTableRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteTableRowView.swift; sourceTree = "<group>"; };
 		93CA0E1524DBBF3C0013BF9F /* AYWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYWindowController.swift; sourceTree = "<group>"; };
 		93CA0E1724DBFC160013BF9F /* AYError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AYError.swift; sourceTree = "<group>"; };
 		93E013F1250A272D00481D2F /* MarkDownDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkDownDocument.swift; sourceTree = "<group>"; };
@@ -137,7 +143,6 @@
 				9309E51E24D8255A005EF8C8 /* Markdown */,
 				9309E50E24D824CF005EF8C8 /* AppDelegate.swift */,
 				93CA0E1524DBBF3C0013BF9F /* AYWindowController.swift */,
-				93388C0224D951420093FAB3 /* NotesViewController.swift */,
 				93388BFE24D94F7F0093FAB3 /* MarkDwonViewController.swift */,
 				9309E51024D824CF005EF8C8 /* ViewController.swift */,
 				93381E1E24EE1D8800934353 /* NSTextView+KeyEquivalent.swift */,
@@ -195,6 +200,7 @@
 		9370602C250B01E900273075 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				937060B02512190600273075 /* Notes */,
 				9370602D250B01F500273075 /* Directories */,
 			);
 			path = Modules;
@@ -230,6 +236,41 @@
 			isa = PBXGroup;
 			children = (
 				93706033250B027600273075 /* DocumentDownloadManager.swift */,
+			);
+			path = Presenters;
+			sourceTree = "<group>";
+		};
+		937060B02512190600273075 /* Notes */ = {
+			isa = PBXGroup;
+			children = (
+				937060B52512198F00273075 /* Presenters */,
+				937060B22512193C00273075 /* Views */,
+				937060B12512192000273075 /* Controllers */,
+			);
+			path = Notes;
+			sourceTree = "<group>";
+		};
+		937060B12512192000273075 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				93388C0224D951420093FAB3 /* NotesViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		937060B22512193C00273075 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				937060B32512194600273075 /* NoteTableCell.swift */,
+				937060B825121C4C00273075 /* NoteTableRowView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		937060B52512198F00273075 /* Presenters */ = {
+			isa = PBXGroup;
+			children = (
+				937060B62512199D00273075 /* NotesDownloadManager.swift */,
 			);
 			path = Presenters;
 			sourceTree = "<group>";
@@ -376,12 +417,14 @@
 				93706034250B027600273075 /* DocumentDownloadManager.swift in Sources */,
 				93EA19B324FC7BF2009DD7F7 /* DocumentManager.swift in Sources */,
 				93E013F2250A272D00481D2F /* MarkDownDocument.swift in Sources */,
+				937060B925121C4C00273075 /* NoteTableRowView.swift in Sources */,
 				93388C0024D94F7F0093FAB3 /* MarkDwonViewController.swift in Sources */,
 				93706029250A326000273075 /* HTMLDocument.swift in Sources */,
 				932D613E24FE6A0B00F0188A /* Document.swift in Sources */,
 				9309E53624D8255A005EF8C8 /* MMHTMLParser.m in Sources */,
 				9309E53024D8255A005EF8C8 /* MMMarkdown.m in Sources */,
 				93CA0E1824DBFC160013BF9F /* AYError.swift in Sources */,
+				937060B42512194600273075 /* NoteTableCell.swift in Sources */,
 				9309E53524D8255A005EF8C8 /* MMElement.m in Sources */,
 				9309E53324D8255A005EF8C8 /* MMSpanParser.m in Sources */,
 				9309E51124D824CF005EF8C8 /* ViewController.swift in Sources */,
@@ -395,6 +438,7 @@
 				9309E50F24D824CF005EF8C8 /* AppDelegate.swift in Sources */,
 				9309E53424D8255A005EF8C8 /* MMScanner.m in Sources */,
 				93706031250B022100273075 /* DocumentTableCell.swift in Sources */,
+				937060B72512199D00273075 /* NotesDownloadManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
