@@ -52,6 +52,10 @@ class DocumentViewController: NSViewController {
             return
         }
         var directory = dataSource[row]
+        if directory.name == string {
+            tableView.reloadData()
+            return
+        }
         guard let url = directory.fileURL else {
             return
         }
