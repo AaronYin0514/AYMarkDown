@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
-        <plugIn identifier="com.apple.WebKit2IBPlugin" version="16097.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.3"/>
+        <plugIn identifier="com.apple.WebKit2IBPlugin" version="16097.3"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -1072,12 +1072,12 @@
                                 </scroller>
                             </scrollView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BCn-2m-Qk8">
-                                <rect key="frame" x="33" y="1" width="107" height="32"/>
+                                <rect key="frame" x="20" y="8" width="95" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="jDl-Zn-GGA"/>
                                     <constraint firstAttribute="width" constant="95" id="xQG-04-e1r"/>
                                 </constraints>
-                                <buttonCell key="cell" type="push" title="新建文件夹" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Bux-0O-Zpx">
+                                <buttonCell key="cell" type="bevel" title="新建文件夹" bezelStyle="rounded" image="NSAddTemplate" imagePosition="left" alignment="center" imageScaling="proportionallyDown" inset="2" id="Bux-0O-Zpx">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -1088,9 +1088,9 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="BCn-2m-Qk8" firstAttribute="top" secondItem="the-F8-7VX" secondAttribute="bottom" constant="8" id="665-oR-eQ6"/>
+                            <constraint firstItem="BCn-2m-Qk8" firstAttribute="leading" secondItem="TAd-0w-f7I" secondAttribute="leading" constant="20" id="MV0-ph-5bO"/>
                             <constraint firstAttribute="trailing" secondItem="the-F8-7VX" secondAttribute="trailing" id="Nkl-bl-q51"/>
                             <constraint firstAttribute="bottom" secondItem="BCn-2m-Qk8" secondAttribute="bottom" constant="8" id="a0i-TT-FyU"/>
-                            <constraint firstItem="BCn-2m-Qk8" firstAttribute="centerX" secondItem="TAd-0w-f7I" secondAttribute="centerX" id="j1G-rK-Ets"/>
                             <constraint firstItem="the-F8-7VX" firstAttribute="leading" secondItem="TAd-0w-f7I" secondAttribute="leading" id="vkP-hN-lgY"/>
                             <constraint firstItem="the-F8-7VX" firstAttribute="top" secondItem="TAd-0w-f7I" secondAttribute="top" id="wHk-ev-grp"/>
                         </constraints>
@@ -1111,7 +1111,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="183" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EXd-tN-FGU">
+                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EXd-tN-FGU">
                                 <rect key="frame" x="0.0" y="0.0" width="183" height="300"/>
                                 <clipView key="contentView" id="Iei-oG-DGv">
                                     <rect key="frame" x="0.0" y="0.0" width="183" height="300"/>
@@ -1161,11 +1161,11 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="7R1-Ms-jAI">
-                                    <rect key="frame" x="0.0" y="284" width="183" height="16"/>
+                                    <rect key="frame" x="-100" y="-100" width="183" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="vbD-Lo-NnR">
-                                    <rect key="frame" x="224" y="17" width="15" height="102"/>
+                                    <rect key="frame" x="-100" y="-100" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
@@ -1249,6 +1249,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="NSAddTemplate" width="11" height="11"/>
         <image name="NSTouchBarComposeTemplate" width="21" height="30"/>
     </resources>
 </document>
